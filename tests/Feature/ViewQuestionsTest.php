@@ -7,12 +7,13 @@ use Tests\TestCase;
 
 class ViewQuestionsTest extends TestCase
 {
-    public function testUserCanViewQuestions()
+    /** @test */
+    public function user_can_view_questions()
     {
         // 0. 抛出异常
         $this->withoutExceptionHandling();
 
-        // 1. 访问链接 /questions
+        // 1. 访问链接 questions
         $test = $this->get('/questions');
 
         // 2. 正常返回 200

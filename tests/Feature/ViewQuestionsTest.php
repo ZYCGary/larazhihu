@@ -22,24 +22,9 @@ class ViewQuestionsTest extends TestCase
     }
 
     /** @test */
-    public function user_can_view_a_single_question()
-    {
-        // 1. 创建一个问题
-        $question = Question::factory()->create();
-
-        // 2. 访问链接
-        $test = $this->get('/questions/' . $question->id);
-
-        // 3. 那么应该看到问题的内容
-        $test->assertStatus(200)
-            ->assertSee($question->title)
-            ->assertSee($question->content);
-    }
-
-    /** @test */
     public function user_can_view_a_published_question()
     {
-        $question = Question::factory()->create(['published_at' => Carbon::parse('-1week')]);
+        $question = Question::factory()->published()->create();
 
         $this->get('/questions/' . $question->id)
             ->assertStatus(200)
@@ -50,9 +35,9 @@ class ViewQuestionsTest extends TestCase
     /** @test */
     public function user_cannot_view_unpublished_question()
     {
-        $question = Question::factory()->create(['published_at' => null]);
+        $question = Question::factory()->unpublished()->create();
 
-        $this/*->withExceptionHandling()*/
+        $this->withExceptionHandling()
             ->get('/questions/' . $question->id)
             ->assertStatus(404);
     }

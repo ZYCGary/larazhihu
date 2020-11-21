@@ -28,10 +28,16 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Question whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Question whereUserId($value)
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder|Question published()
  */
 class Question extends Model
 {
     use HasFactory;
+
+    public function scopePublished($query)
+    {
+        return $query->whereNotNull('published_at');
+    }
 
     public function answers()
     {

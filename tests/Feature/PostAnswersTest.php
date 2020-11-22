@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Answer;
 use App\Models\Question;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -18,8 +19,8 @@ class PostAnswersTest extends TestCase
         $question = Question::factory()->published()->create();
         $user = User::factory()->create();
 
-        $response = $this->post("/questions/{$question->id}/answers", [
-            'user_id' => $user->id,
+        $response = $this->actingAs($user)
+            ->post("/questions/{$question->id}/answers", [
             'content' => 'This is an answer.'
         ]);
         $response->assertStatus(201);
@@ -46,5 +47,22 @@ class PostAnswersTest extends TestCase
 
         $this->assertDatabaseMissing('answers', ['question_id' => $question->id]);
         $this->assertEquals(0, $question->answers()->count());
+    }
+
+    /** @test */
+    public function content_is_required_to_post_answer()
+    {
+        $this->withExceptionHandling();
+
+        $question = Question::factory()->published()->create();
+        $user = User::factory()->create();
+
+        $response = $this->post('/questions/' . $question->id . '/answers', [
+            'user_id' => $user->id,
+            'content' => null,
+        ]);
+
+        $response->assertRedirect();
+        $response->assertSessionHasErrors('content');
     }
 }

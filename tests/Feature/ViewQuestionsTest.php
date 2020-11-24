@@ -35,6 +35,7 @@ class ViewQuestionsTest extends TestCase
     /** @test */
     public function user_cannot_view_unpublished_question()
     {
+        $this->withExceptionHandling();
         $question = Question::factory()->unpublished()->create();
 
         $this->withExceptionHandling()

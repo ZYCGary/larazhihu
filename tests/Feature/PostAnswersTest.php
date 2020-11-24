@@ -14,16 +14,30 @@ class PostAnswersTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function user_can_post_an_answer_to_a_published_question()
+    public function guests_may_not_post_an_answer()
+    {
+        $this->expectException('Illuminate\Auth\AuthenticationException');
+        $question = Question::factory()->published()->create();
+
+        $response = $this->post("/questions/{$question->id}/answers", [
+            'content' => 'This is an answer.'
+        ]);
+
+        $response->assertStatus(302)
+            ->assertRedirect('/login');
+    }
+
+    /** @test */
+    public function signed_in_user_can_post_an_answer_to_a_published_question()
     {
         $question = Question::factory()->published()->create();
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)
             ->post("/questions/{$question->id}/answers", [
-            'content' => 'This is an answer.'
-        ]);
-        $response->assertStatus(201);
+                'content' => 'This is an answer.'
+            ]);
+        $response->assertStatus(302);
 
         $answer = $question->answers()->where('user_id', $user->id)->first();
         $this->assertNotNull($answer);
@@ -32,14 +46,14 @@ class PostAnswersTest extends TestCase
     }
 
     /** @test */
-    public function user_cannot_post_an_answer_to_an_unpublished_question()
+    public function cannot_post_an_answer_to_an_unpublished_question()
     {
         $question = Question::factory()->unpublished()->create();
         $user = User::factory()->create();
 
         $response = $this->withExceptionHandling()
+            ->actingAs($user)
             ->post("/questions/{$question->id}/answers", [
-                'user_id' => $user->id,
                 'content' => 'This is an answer.'
             ]);
 
@@ -57,10 +71,10 @@ class PostAnswersTest extends TestCase
         $question = Question::factory()->published()->create();
         $user = User::factory()->create();
 
-        $response = $this->post('/questions/' . $question->id . '/answers', [
-            'user_id' => $user->id,
-            'content' => null,
-        ]);
+        $response = $this->actingAs($user)
+            ->post('/questions/' . $question->id . '/answers', [
+                'content' => null,
+            ]);
 
         $response->assertRedirect();
         $response->assertSessionHasErrors('content');

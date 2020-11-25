@@ -29,6 +29,7 @@ Route::get('/questions/{question}', [QuestionsController::class, 'show']);
 Route::post('/questions/{question}/answers', [AnswersController::class, 'store']);
 
 Route::post('/answers/{answer}/best', [BestAnswersController::class, 'store'])->name('best-answers.store');
-Route::delete('/answers/{answer}',[AnswersController::class, 'destroy'])->name('answers.destroy');
+Route::delete('/answers/{answer}', [AnswersController::class, 'destroy'])->name('answers.destroy');
 
 Route::post('/answers/{answer}/up-votes', [AnswerUpVotesController::class, 'store'])->name('answer-up-votes.store');
+Route::delete('/answers/{answer}/up-votes', [AnswerUpVotesController::class, 'destroy'])->name('answer-up-votes.destroy');

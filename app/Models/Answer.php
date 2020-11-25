@@ -29,13 +29,18 @@ class Answer extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function voteUp($user)
+    public function voteUp(User $user)
     {
         $this->votes('vote_up')->create(['user_id' => $user->id, 'type' => 'vote_up']);
     }
 
+    public function cancelVoteUp(User $user)
+    {
+        $this->votes('vote_up')->where('user_id', $user->id)->delete();
+    }
+
     public function votes($type)
     {
-        return $this->morphMany(Vote::class, 'votable')->whereType($type);
+        return $this->morphMany(Vote::class, 'votable')->where('type', $type);
     }
 }

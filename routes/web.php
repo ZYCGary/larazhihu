@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnswersController;
+use App\Http\Controllers\AnswerUpVotesController;
 use App\Http\Controllers\BestAnswersController;
 use App\Http\Controllers\QuestionsController;
 use Illuminate\Support\Facades\Route;
@@ -29,3 +30,5 @@ Route::post('/questions/{question}/answers', [AnswersController::class, 'store']
 
 Route::post('/answers/{answer}/best', [BestAnswersController::class, 'store'])->name('best-answers.store');
 Route::delete('/answers/{answer}',[AnswersController::class, 'destroy'])->name('answers.destroy');
+
+Route::post('/answers/{answer}/up-votes', [AnswerUpVotesController::class, 'store'])->name('answer-up-votes.store');

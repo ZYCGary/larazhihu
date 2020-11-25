@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AnswerRequest;
+use App\Models\Answer;
 use App\Models\Question;
 use Illuminate\Http\Request;
 
@@ -21,6 +22,15 @@ class AnswersController extends Controller
             'user_id' => auth()->id(),
             'content' => request('content')
         ]);
+
+        return back();
+    }
+
+    public function destroy(Answer $answer)
+    {
+        $this->authorize('delete', $answer);
+
+        $answer->delete();
 
         return back();
     }

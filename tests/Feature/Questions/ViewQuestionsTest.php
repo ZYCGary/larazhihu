@@ -3,7 +3,6 @@
 namespace Tests\Feature\Questions;
 
 use App\Models\Question;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

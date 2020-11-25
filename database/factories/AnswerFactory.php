@@ -30,7 +30,7 @@ class AnswerFactory extends Factory
             'question_id' => function () {
                 return Question::factory()->create()->id;
             },
-            'content' => $this->faker->text
+            'content' => $this->faker->text,
         ];
     }
 }

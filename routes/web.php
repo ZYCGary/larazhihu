@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\AnswersController;
+use App\Http\Controllers\BestAnswersController;
+use App\Http\Controllers\QuestionsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,7 +22,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/questions', 'QuestionsController@index');
-Route::get('/questions/{question}', 'QuestionsController@show');
+Route::get('/questions', [QuestionsController::class, 'index']);
+Route::get('/questions/{question}', [QuestionsController::class, 'show']);
 
-Route::post('/questions/{question}/answers', 'AnswersController@store');
+Route::post('/questions/{question}/answers', [AnswersController::class, 'store']);
+
+Route::post('/answers/{answer}/best', [BestAnswersController::class, 'store'])->name('best-answers.store');

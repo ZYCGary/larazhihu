@@ -12,9 +12,18 @@ class Question extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['id'];
+
     public function scopePublished($query)
     {
         return $query->whereNotNull('published_at');
+    }
+
+    public function markAsBest($answer)
+    {
+        $this->update([
+            'best_answer_id' => $answer->id,
+        ]);
     }
 
     public function answers()

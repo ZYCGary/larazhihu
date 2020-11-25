@@ -14,7 +14,8 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
-        "laravel/ui": "^3.1"
+        "laravel/ui": "^3.1",
+        "viacreative/sudo-su": "^1.1"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.8",
@@ -48,7 +49,7 @@
         "psr-4": {
             "Tests\\": "tests/"
         },
-        "files":[
+        "files": [
             "tests/helpers.php"
         ]
     },

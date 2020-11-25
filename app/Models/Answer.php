@@ -23,4 +23,9 @@ class Answer extends Model
     {
         return $this->belongsTo(Question::class);
     }
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

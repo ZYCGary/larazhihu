@@ -4,7 +4,6 @@ namespace Tests\Unit;
 
 use App\Models\Answer;
 use App\Models\Question;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -44,5 +43,14 @@ class QuestionTest extends TestCase
 
         $this->assertEquals($question->best_answer_id, $answer->isBest());
 
+    }
+
+    /** @test  */
+    public function a_question_belongs_to_a_creator()
+    {
+        $question = create(Question::class);
+
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Relations\BelongsTo', $question->creator());
+        $this->assertInstanceOf('App\Models\User', $question->creator);
     }
 }

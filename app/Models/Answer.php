@@ -31,9 +31,7 @@ class Answer extends Model
 
     public function voteUp(User $user)
     {
-        $attributes = ['user_id' => $user->id];
-
-        if (!$this->votes('vote_up')->where($attributes)->exists()) {
+        if (!$this->isVotedUp($user)) {
             $this->votes('vote_up')->create(['user_id' => $user->id, 'type' => 'vote_up']);
         }
     }
@@ -43,8 +41,21 @@ class Answer extends Model
         $this->votes('vote_up')->where('user_id', $user->id)->delete();
     }
 
+    public function isVotedUp(User $user)
+    {
+        if (!$user)
+            return false;
+
+        return $this->votes('vote_up')->where('user_id', $user->id)->exists();
+    }
+
     public function votes($type)
     {
         return $this->morphMany(Vote::class, 'votable')->where('type', $type);
+    }
+
+    public function getUpVotesCountAttribute()
+    {
+        return $this->votes('vote_up')->count();
     }
 }

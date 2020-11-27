@@ -6,7 +6,7 @@ use App\Models\Answer;
 use Illuminate\Http\Request;
 use Auth;
 
-class AnswerUpVotesController extends Controller
+class AnswerDownVotesController extends Controller
 {
     public function __construct()
     {
@@ -15,14 +15,7 @@ class AnswerUpVotesController extends Controller
 
     public function store(Answer $answer)
     {
-        $answer->voteUp(Auth::user());
-
-        return response([], 201);
-    }
-
-    public function destroy(Answer $answer)
-    {
-        $answer->cancelVoteUp(Auth::user());
+        $answer->voteDown(Auth::user());
 
         return response([], 201);
     }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnswerDownVotesController;
 use App\Http\Controllers\AnswersController;
 use App\Http\Controllers\AnswerUpVotesController;
 use App\Http\Controllers\BestAnswersController;
@@ -33,3 +34,5 @@ Route::delete('/answers/{answer}', [AnswersController::class, 'destroy'])->name(
 
 Route::post('/answers/{answer}/up-votes', [AnswerUpVotesController::class, 'store'])->name('answer-up-votes.store');
 Route::delete('/answers/{answer}/up-votes', [AnswerUpVotesController::class, 'destroy'])->name('answer-up-votes.destroy');
+Route::post('/answers/{answer}/down-votes', [AnswerDownVotesController::class, 'store'])->name('answer-down-votes.store');
+

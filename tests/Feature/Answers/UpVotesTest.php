@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\Vote;
 use Exception;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Auth;
+use Auth;
 use Tests\TestCase;
 
 class UpVotesTest extends TestCase

@@ -6,7 +6,7 @@ use App\Models\Answer;
 use App\Models\User;
 use App\Models\Vote;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Auth;
+use Auth;
 use Tests\TestCase;
 
 class AnswerTest extends TestCase
@@ -119,5 +119,29 @@ class AnswerTest extends TestCase
             'votable_type' => get_class($answer)
         ]);
         $this->assertEquals(2, $answer->refresh()->upVotesCount);
+    }
+
+    /** @test */
+    public function can_vote_down_an_answer()
+    {
+        $this->signIn();
+
+        $answer = create(Answer::class);
+
+        $this->assertDatabaseMissing('votes', [
+            'user_id' => auth()->id(),
+            'votable_id' => $answer->id,
+            'votable_type' => get_class($answer),
+            'type' => 'vote_down'
+        ]);
+
+        $answer->voteDown(Auth::user());
+
+        $this->assertDatabaseHas('votes', [
+            'user_id' => auth()->id(),
+            'votable_id' => $answer->id,
+            'votable_type' => get_class($answer),
+            'type' => 'vote_down'
+        ]);
     }
 }

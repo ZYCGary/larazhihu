@@ -28,11 +28,19 @@
     </div>
 
     @include('layouts._footer')
+
+    <flash message="{{ session('flash') }}"></flash>
 </div>
 </body>
 
 @if (config('app.debug'))
     @include('sudosu::user-selector')
 @endif
+
+<script>
+    window.App = {!! json_encode([
+        'signedIn' => Auth::check()
+    ]) !!}
+</script>
 
 </html>

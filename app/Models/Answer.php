@@ -15,6 +15,11 @@ class Answer extends Model
 
     protected $guarded = ['id'];
 
+    protected $appends = [
+        'upVotesCount',
+        'downVotesCount',
+    ];
+
     public function isBest()
     {
         return $this->id === $this->question->best_answer_id;

@@ -23,7 +23,7 @@ class AnswersController extends Controller
             'content' => request('content')
         ]);
 
-        return back();
+        return back()->with('flash', 'Post your answer successfully!');
     }
 
     public function destroy(Answer $answer)
@@ -32,6 +32,6 @@ class AnswersController extends Controller
 
         $answer->delete();
 
-        return back();
+        return back()->with('flash', 'Delete your answer successfully');
     }
 }

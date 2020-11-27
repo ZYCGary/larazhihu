@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\VoteTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Answer extends Model
 {
-    use HasFactory;
+    use HasFactory, VoteTrait;
 
     protected $guarded = ['id'];
 
@@ -28,7 +29,7 @@ class Answer extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
-
+/*
     public function voteUp(User $user)
     {
         if (!$this->isVotedUp($user)) {
@@ -85,5 +86,5 @@ class Answer extends Model
     public function getDownVotesCountAttribute()
     {
         return $this->votes('vote_down')->count();
-    }
+    }*/
 }

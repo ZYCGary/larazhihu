@@ -33,9 +33,9 @@
 </div>
 </body>
 
-{{--@if (config('app.debug'))
+@if (config('app.debug'))
     @include('sudosu::user-selector')
-@endif--}}
+@endif
 
 <script>
     window.App = {!! json_encode([

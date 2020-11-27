@@ -18,7 +18,7 @@ class QuestionsController extends Controller
 
         $answers = $question->answers()->paginate(20);
 
-        array_map(function (&$item) {
+        array_map(function ($item) {
             return $this->appendVotedAttribute($item);
         }, $answers->items());
 

@@ -8,90 +8,35 @@ use App\Models\Vote;
 use Exception;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Auth;
+use Tests\Feature\VoteUpContractTest;
 use Tests\TestCase;
 
 class UpVotesTest extends TestCase
 {
     use RefreshDatabase;
+    use VoteUpContractTest;
 
-    /** @test */
-    public function guest_cannot_vote_up()
+    protected function getVoteUpRoute(Answer $answer = null)
     {
-        $this->withExceptionHandling();
-        $answer = create(Answer::class);
-
-        $this->post(route('answer-up-votes.store', ['answer' => $answer->id]))
-            ->assertRedirect('/login');
+        return $answer
+            ? route('answer-up-votes.store', ['answer' => $answer->id])
+            : route('answer-up-votes.store', ['answer' => '1']);
     }
 
-    /** @test */
-    public function authenticated_user_can_vote_up()
+    protected function getCancelVoteUpRoute(Answer $answer = null)
     {
-        $this->signIn();
-        $answer = create(Answer::class);
-
-        $this->post(route('answer-up-votes.store', ['answer' => $answer->id]))
-            ->assertStatus(201);
-        $this->assertCount(1, $answer->refresh()->votes('vote_up')->get());
+        return $answer
+            ? route('answer-up-votes.destroy', ['answer' => $answer->id])
+            : route('answer-up-votes.destroy', ['answer' => '1']);
     }
 
-    /** @test */
-    public function authenticated_user_can_cancel_vote_up()
+    protected function upVotes(Answer $answer)
     {
-        $this->signIn();
-
-        $answer = create(Answer::class);
-
-        $this->post(route('answer-up-votes.store', ['answer' => $answer->id]));
-
-        $this->assertCount(1, $answer->refresh()->votes('vote_up')->get());
-
-        $this->delete(route('answer-up-votes.destroy', ['answer' => $answer->id]))
-            ->assertStatus(201);
-
-        $this->assertCount(0, $answer->refresh()->votes('vote_up')->get());
+        return $answer->refresh()->votes('vote_up')->get();
     }
 
-    /** @test */
-    public function can_vote_up_only_once()
+    protected function getModel()
     {
-        $this->signIn();
-
-        $answer = create(Answer::class);
-
-        try {
-            $this->post(route('answer-up-votes.store', ['answer' => $answer->id]));
-            $this->post(route('answer-up-votes.store', ['answer' => $answer->id]));
-        } catch (Exception $exception) {
-            $this->fail('Cannot vote up twice.');
-        }
-
-        $this->assertCount(1, $answer->refresh()->votes('vote_up')->get());
-    }
-
-    /** @test */
-    public function can_know_it_is_voted_up()
-    {
-        $this->signIn();
-
-        $answer = create(Answer::class);
-
-        $this->post(route('answer-up-votes.store', ['answer' => $answer->id]));
-
-        $this->assertTrue($answer->refresh()->isVotedUp(Auth::user()));
-    }
-
-    /** @test */
-    public function can_know_up_votes_count()
-    {
-        $answer = create(Answer::class);
-
-        $this->signIn();
-        $this->post(route('answer-up-votes.store', ['answer' => $answer->id]));
-        $this->assertEquals(1, $answer->refresh()->upVotesCount);
-
-        $this->signIn(create(User::class));
-        $this->post(route('answer-up-votes.store', ['answer' => $answer->id]));
-        $this->assertEquals(2, $answer->refresh()->upVotesCount);
+        return Answer::class;
     }
 }

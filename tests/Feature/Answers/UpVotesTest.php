@@ -46,7 +46,8 @@ class UpVotesTest extends TestCase
 
         $this->assertCount(1, $answer->refresh()->votes('vote_up')->get());
 
-        $this->delete(route('answer-up-votes.destroy', ['answer' => $answer->id]));
+        $this->delete(route('answer-up-votes.destroy', ['answer' => $answer->id]))
+            ->assertStatus(201);
 
         $this->assertCount(0, $answer->refresh()->votes('vote_up')->get());
     }

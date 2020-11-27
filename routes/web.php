@@ -35,4 +35,4 @@ Route::delete('/answers/{answer}', [AnswersController::class, 'destroy'])->name(
 Route::post('/answers/{answer}/up-votes', [AnswerUpVotesController::class, 'store'])->name('answer-up-votes.store');
 Route::delete('/answers/{answer}/up-votes', [AnswerUpVotesController::class, 'destroy'])->name('answer-up-votes.destroy');
 Route::post('/answers/{answer}/down-votes', [AnswerDownVotesController::class, 'store'])->name('answer-down-votes.store');
-
+Route::delete('/answers/{answer}/down-votes', [AnswerDownVotesController::class, 'destroy'])->name('answer-down-votes.destroy');

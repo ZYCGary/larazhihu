@@ -3,6 +3,8 @@
 namespace Tests\Feature\Answers;
 
 use App\Models\Answer;
+use App\Models\User;
+use Auth;
 use Exception;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -68,5 +70,32 @@ class DownVotesTest extends TestCase
         }
 
         $this->assertCount(1, $answer->refresh()->votes('vote_down')->get());
+    }
+
+    /** @test */
+    public function can_know_it_is_voted_down()
+    {
+        $this->signIn();
+
+        $answer = create(Answer::class);
+
+        $this->post(route('answer-down-votes.store', ['answer' => $answer->id]));
+
+        $this->assertTrue($answer->refresh()->isVotedDown(Auth::user()));
+    }
+
+    /** @test */
+    public function can_count_down_votes()
+    {
+        $answer = create(Answer::class);
+
+        $this->signIn();
+        $this->post("/answers/{$answer->id}/down-votes");
+        $this->assertEquals(1, $answer->refresh()->downVotesCount);
+
+        $this->signIn(create(User::class));
+        $this->post("/answers/{$answer->id}/down-votes");
+
+        $this->assertEquals(2, $answer->refresh()->downVotesCount);
     }
 }

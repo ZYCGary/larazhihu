@@ -63,7 +63,7 @@ class Answer extends Model
     {
         $attributes = ['user_id' => $user->id];
 
-        if (! $this->votes('vote_down')->where($attributes)->exists()) {
+        if (!$this->votes('vote_down')->where($attributes)->exists()) {
             $this->votes('vote_down')->create(['user_id' => $user->id, 'type' => 'vote_down']);
         }
     }
@@ -71,5 +71,19 @@ class Answer extends Model
     public function cancelVoteDown(User $user)
     {
         $this->votes('vote_down')->where('user_id', $user->id)->delete();
+    }
+
+    public function isVotedDown(User $user)
+    {
+        if (!$user) {
+            return false;
+        }
+
+        return $this->votes('vote_down')->where('user_id', $user->id)->exists();
+    }
+
+    public function getDownVotesCountAttribute()
+    {
+        return $this->votes('vote_down')->count();
     }
 }

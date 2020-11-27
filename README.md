@@ -50,7 +50,7 @@
 5. Add a run configuration for PHPUnit
     * Click the *Edit Configurations* option from the *Run* dropdown menu
     * Add a new configuration using the `+` button, and selecting *PHPUnit*
-    * ![Run config](resources/assets/images/readme/config_run.png)
+    ![Run config](resources/assets/images/readme/config_run.png)
 6. Now, you can save the settings and run the test runner using the green play icon, or test any testing function by clicking the green play button next to it.
 
 

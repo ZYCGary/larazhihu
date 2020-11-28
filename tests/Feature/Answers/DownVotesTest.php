@@ -3,12 +3,8 @@
 namespace Tests\Feature\Answers;
 
 use App\Models\Answer;
-use App\Models\User;
-use Auth;
-use Exception;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\Feature\VoteDownContractTest;
+use Tests\Contract\VoteDownContractTest;
 use Tests\TestCase;
 
 class DownVotesTest extends TestCase

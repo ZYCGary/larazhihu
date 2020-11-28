@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\QuestionRequest;
 use App\Models\Question;
 use Illuminate\Http\Request;
 use Symfony\Component\Console\Input\Input;
@@ -34,7 +35,7 @@ class QuestionsController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(QuestionRequest $request)
     {
         $question = Question::create([
             'user_id' => auth()->id(),

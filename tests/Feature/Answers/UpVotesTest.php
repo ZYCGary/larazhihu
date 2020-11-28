@@ -3,12 +3,8 @@
 namespace Tests\Feature\Answers;
 
 use App\Models\Answer;
-use App\Models\User;
-use App\Models\Vote;
-use Exception;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Auth;
-use Tests\Feature\VoteUpContractTest;
+use Tests\Contract\VoteUpContractTest;
 use Tests\TestCase;
 
 class UpVotesTest extends TestCase

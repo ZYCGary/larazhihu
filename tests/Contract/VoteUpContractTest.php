@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Contract;
 
 use App\Models\User;
 use Auth;

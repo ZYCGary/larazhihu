@@ -2,8 +2,7 @@
 
 namespace App\Http\Requests;
 
-
-class AnswerRequest extends Request
+class QuestionRequest extends Request
 {
     public function rules()
     {
@@ -13,7 +12,9 @@ class AnswerRequest extends Request
             case 'POST':
             {
                 return [
-                    'content' => ['required']
+                    'title' => ['required'],
+                    'content' => ['required'],
+                    'category_id' => ['required', 'exists:categories,id'],
                 ];
             }
             // UPDATE

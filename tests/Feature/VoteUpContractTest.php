@@ -23,7 +23,7 @@ trait VoteUpContractTest
         $this->withExceptionHandling();
 
         $this->post($this->getVoteUpRoute())
-            ->assertRedirect('/login');
+            ->assertRedirect(route('login'));
     }
 
     /** @test */

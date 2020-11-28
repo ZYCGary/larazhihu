@@ -9,7 +9,6 @@ use Tests\TestCase;
 
 class CreateQuestionsTest extends TestCase
 {
-
     use RefreshDatabase;
 
     /** @test */
@@ -18,7 +17,7 @@ class CreateQuestionsTest extends TestCase
         $this->withExceptionHandling();
 
         $this->post(route('questions.store'))
-            ->assertRedirect('/login');
+            ->assertRedirect(route('login'));
     }
 
     /** @test */
@@ -31,7 +30,7 @@ class CreateQuestionsTest extends TestCase
         $this->assertCount(0, Question::all());
 
         $this->post(route('questions.store', $question->toArray()))
-            ->assertRedirect(route('questions.show', 1));
+            ->assertRedirect(route('questions.show', ['question' => Question::first()->id]));
 
         $this->assertCount(1, Question::all());
     }

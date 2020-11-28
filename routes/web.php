@@ -24,11 +24,11 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/questions', [QuestionsController::class, 'index']);
+Route::get('/questions', [QuestionsController::class, 'index'])->name('questions.index');
 Route::post('/questions', [QuestionsController::class, 'store'])->name('questions.store');
 Route::get('/questions/{question}', [QuestionsController::class, 'show'])->name('questions.show');
 
-Route::post('/questions/{question}/answers', [AnswersController::class, 'store']);
+Route::post('/questions/{question}/answers', [AnswersController::class, 'store'])->name('answers.store');
 
 Route::post('/answers/{answer}/best', [BestAnswersController::class, 'store'])->name('best-answers.store');
 Route::delete('/answers/{answer}', [AnswersController::class, 'destroy'])->name('answers.destroy');

@@ -23,7 +23,7 @@ trait VoteDownContractTest
         $this->withExceptionHandling();
 
         $this->post($this->getVoteDownRoute())
-            ->assertRedirect('/login');
+            ->assertRedirect(route('login'));
     }
 
     /** @test */

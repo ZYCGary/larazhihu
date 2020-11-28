@@ -17,12 +17,13 @@ class PostAnswersTest extends TestCase
         $this->expectException('Illuminate\Auth\AuthenticationException');
         $question = Question::factory()->published()->create();
 
-        $response = $this->post("/questions/{$question->id}/answers", [
-            'content' => 'This is an answer.'
-        ]);
+        $response = $this->post(route('answers.store', [
+            'question' => $question->id,
+            'content' => "this is an answer."
+        ]));
 
         $response->assertStatus(302)
-            ->assertRedirect('/login');
+            ->assertRedirect(route('login'));
     }
 
     /** @test */
@@ -32,9 +33,10 @@ class PostAnswersTest extends TestCase
         $user = create(User::class);
 
         $response = $this->signIn($user)
-            ->post("/questions/{$question->id}/answers", [
-                'content' => 'This is an answer.'
-            ]);
+            ->post(route('answers.store', [
+                'question' => $question->id,
+                'content' => "this is an answer."
+            ]));
         $response->assertStatus(302);
 
         $answer = $question->answers()->where('user_id', $user->id)->first();
@@ -51,9 +53,10 @@ class PostAnswersTest extends TestCase
 
         $response = $this->withExceptionHandling()
             ->signIn($user)
-            ->post("/questions/{$question->id}/answers", [
-                'content' => 'This is an answer.'
-            ]);
+            ->post(route('answers.store', [
+                'question' => $question->id,
+                'content' => "this is an answer."
+            ]));
 
         $response->assertStatus(404);
 
@@ -70,9 +73,10 @@ class PostAnswersTest extends TestCase
         $user = create(User::class);
 
         $response = $this->signIn($user)
-            ->post('/questions/' . $question->id . '/answers', [
-                'content' => null,
-            ]);
+            ->post(route('answers.store', [
+                'question' => $question->id,
+                'content' => null
+            ]));
 
         $response->assertRedirect();
         $response->assertSessionHasErrors('content');

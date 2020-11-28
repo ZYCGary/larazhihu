@@ -20,7 +20,7 @@ class BestAnswerTest extends TestCase
 
         $this->withExceptionHandling()
             ->post(route('best-answers.store', ['answer' => $answers[1]]), [$answers[1]])
-            ->assertRedirect('/login');
+            ->assertRedirect(route('login'));
     }
 
     /** @test */

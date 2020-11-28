@@ -26,7 +26,7 @@ class ViewQuestionsTest extends TestCase
     {
         $question = Question::factory()->published()->create();
 
-        $this->get('/questions/' . $question->id)
+        $this->get(route('questions.show', ['question' => $question->id]))
             ->assertStatus(200)
             ->assertSee($question->title)
             ->assertSee($question->content);
@@ -39,7 +39,7 @@ class ViewQuestionsTest extends TestCase
         $question = Question::factory()->unpublished()->create();
 
         $this->withExceptionHandling()
-            ->get('/questions/' . $question->id)
+            ->get(route('questions.show', ['question' => $question->id]))
             ->assertStatus(404);
     }
 
@@ -49,7 +49,7 @@ class ViewQuestionsTest extends TestCase
         $question = Question::factory()->published()->create();
         create(Answer::class, ['question_id' => $question->id], 40);
 
-        $response = $this->get('/questions/'. $question->id);
+        $response = $this->get(route('questions.show', ['question' => $question->id]));
 
         $result = $response->viewData('answers')->toArray();
 

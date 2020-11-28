@@ -20,7 +20,7 @@ class DeleteAnswersTest extends TestCase
         $answer = create(Answer::class);
 
         $this->delete(route('answers.destroy', ['answer' => $answer]))
-            ->assertRedirect('/login');
+            ->assertRedirect(route('login'));
     }
 
     /** @test */

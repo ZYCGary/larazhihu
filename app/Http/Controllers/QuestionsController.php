@@ -4,9 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Question;
 use Illuminate\Http\Request;
+use Symfony\Component\Console\Input\Input;
 
 class QuestionsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show']);
+    }
+
     public function index()
     {
 
@@ -26,5 +32,17 @@ class QuestionsController extends Controller
             'question' => $question,
             'answers' => $answers,
         ]);
+    }
+
+    public function store(Request $request)
+    {
+        $question = Question::create([
+            'user_id' => auth()->id(),
+            'category_id' => $request->input('category_id'),
+            'title' => $request->input('title'),
+            'content' => $request->input('content'),
+        ]);
+
+        return redirect("/questions/$question->id")->with('flash', 'Create the question successfully！');
     }
 }

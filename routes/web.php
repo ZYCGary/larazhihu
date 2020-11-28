@@ -4,6 +4,7 @@ use App\Http\Controllers\AnswerDownVotesController;
 use App\Http\Controllers\AnswersController;
 use App\Http\Controllers\AnswerUpVotesController;
 use App\Http\Controllers\BestAnswersController;
+use App\Http\Controllers\PublishedQuestionsController;
 use App\Http\Controllers\QuestionsController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,8 @@ Auth::routes();
 Route::get('/questions', [QuestionsController::class, 'index'])->name('questions.index');
 Route::post('/questions', [QuestionsController::class, 'store'])->name('questions.store');
 Route::get('/questions/{question}', [QuestionsController::class, 'show'])->name('questions.show');
+
+Route::post('/questions/{question}/published-questions', [PublishedQuestionsController::class, 'store'])->name('published-questions.store');
 
 Route::post('/questions/{question}/answers', [AnswersController::class, 'store'])->name('answers.store');
 

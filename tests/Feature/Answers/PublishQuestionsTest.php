@@ -12,8 +12,13 @@ class PublishQuestionsTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function guest_cannot_publish_questions()
+    /**
+     * Testing a guest cannot publish a question.
+     *
+     * @test
+     * @covers \App\Http\Controllers\PublishedQuestionsController
+     */
+    public function guest_cannot_publish_a_question()
     {
         $this->withExceptionHandling();
 
@@ -23,8 +28,13 @@ class PublishQuestionsTest extends TestCase
             ->assertRedirect(route('login'));
     }
 
-    /** @test */
-    public function authenticated_user_can_publish_questions()
+    /**
+     * Testing a member can publish a question.
+     *
+     * @test
+     * @covers \App\Http\Controllers\PublishedQuestionsController
+     */
+    public function member_can_publish_a_question()
     {
         $this->signIn();
 
@@ -37,7 +47,12 @@ class PublishQuestionsTest extends TestCase
         $this->assertCount(1, Question::published()->get());
     }
 
-    /** @test */
+    /**
+     * Testing a question can only be published by the creator.
+     *
+     * @test
+     * @covers \App\Http\Controllers\PublishedQuestionsController
+     */
     public function only_question_creator_can_publish_it()
     {
         $this->withExceptionHandling();

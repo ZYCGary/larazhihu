@@ -11,17 +11,25 @@ class ViewQuestionsTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    /**
+     * Testing a user can view the question list.
+     *
+     * @test
+     * @covers \App\Http\Controllers\QuestionsController
+     */
     public function user_can_view_questions()
     {
-        // 1. 访问链接 questions
-        $test = $this->get('/questions');
+        $test = $this->get(route('questions.index'));
 
-        // 2. 正常返回 200
         $test->assertStatus(200);
     }
 
-    /** @test */
+    /**
+     * Testing a user can view the detail of a published question.
+     *
+     * @test
+     * @covers \App\Http\Controllers\QuestionsController
+     */
     public function user_can_view_a_published_question()
     {
         $question = Question::factory()->published()->create();
@@ -32,8 +40,13 @@ class ViewQuestionsTest extends TestCase
             ->assertSee($question->content);
     }
 
-    /** @test */
-    public function user_cannot_view_unpublished_question()
+    /**
+     * Testing a user cannot view the detail of an unpublished question.
+     *
+     * @test
+     * @covers \App\Http\Controllers\QuestionsController
+     */
+    public function user_cannot_view_an_unpublished_question()
     {
         $this->withExceptionHandling();
         $question = Question::factory()->unpublished()->create();
@@ -43,8 +56,13 @@ class ViewQuestionsTest extends TestCase
             ->assertStatus(404);
     }
 
-    /** @test */
-    public function can_see_answers_when_view_a_published_question()
+    /**
+     * Testing a user can see answers when viewing a published question.
+     *
+     * @test
+     * @covers \App\Http\Controllers\QuestionsController
+     */
+    public function user_can_see_answers_when_viewing_a_published_question()
     {
         $question = Question::factory()->published()->create();
         create(Answer::class, ['question_id' => $question->id], 40);

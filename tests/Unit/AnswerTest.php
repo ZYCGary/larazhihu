@@ -13,7 +13,12 @@ class AnswerTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    /**
+     * Testing an answer can indicate whether it is the best answer or not.
+     *
+     * @test
+     * @covers \App\Models\Answer
+     */
     public function knows_it_is_the_best()
     {
         $answer = create(Answer::class);
@@ -25,8 +30,15 @@ class AnswerTest extends TestCase
         $this->assertTrue($answer->isBest());
     }
 
-    /** @test */
-    public function belongs_to_a_question()
+    /**
+     * Testing an answer belongs to a question.
+     *
+     * Testing many-to-one relationship to Question.
+     *
+     * @test
+     * @covers \App\Models\Answer
+     */
+    public function an_answer_belongs_to_a_question()
     {
         $answer = create(Answer::class);
 
@@ -34,8 +46,15 @@ class AnswerTest extends TestCase
         $this->assertInstanceOf('App\Models\Question', $answer->question);
     }
 
-    /** @test */
-    public function belongs_to_an_owner()
+    /**
+     * Testing an answer has an owner.
+     *
+     * Testing many-to-one relationship with User.
+     *
+     * @test
+     * @covers \App\Models\Answer
+     */
+    public function an_answer_belongs_to_an_owner()
     {
         $answer = create(Answer::class);
 
@@ -43,7 +62,12 @@ class AnswerTest extends TestCase
         $this->assertInstanceOf('App\Models\User', $answer->owner);
     }
 
-    /** @test */
+    /**
+     * Testing an answer can be voted up by a member.
+     *
+     * @test
+     * @covers \App\Models\Answer
+     */
     public function can_vote_up_an_answer()
     {
         $this->signIn();
@@ -67,7 +91,12 @@ class AnswerTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * The up vote to an answer can be cancelled by a member.
+     *
+     * @test
+     * @covers \App\Models\Answer
+     */
     public function can_cancel_a_vote_up()
     {
         $this->signIn();
@@ -85,7 +114,12 @@ class AnswerTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * Testing an answer can indicate whether it is voted up by a given user.
+     *
+     * @test
+     * @covers \App\Models\Answer
+     */
     public function knows_it_is_voted_up()
     {
         $user = create(User::class);
@@ -100,7 +134,12 @@ class AnswerTest extends TestCase
         $this->assertTrue($answer->refresh()->isVotedUp($user));
     }
 
-    /** @test */
+    /**
+     * Testing an answer can get the count of its up votes.
+     *
+     * @test
+     * @covers \App\Models\Answer
+     */
     public function can_count_up_votes()
     {
         $answer = create(Answer::class);
@@ -121,7 +160,12 @@ class AnswerTest extends TestCase
         $this->assertEquals(2, $answer->refresh()->upVotesCount);
     }
 
-    /** @test */
+    /**
+     * Testing an answer can be voted down by a member.
+     *
+     * @test
+     * @covers \App\Models\Answer
+     */
     public function can_vote_down_an_answer()
     {
         $this->signIn();
@@ -145,7 +189,12 @@ class AnswerTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * Testing an answer can indicate whether it is voted down by a given user.
+     *
+     * @test
+     * @covers \App\Models\Answer
+     */
     public function knows_it_is_voted_down()
     {
         $user = create(User::class);

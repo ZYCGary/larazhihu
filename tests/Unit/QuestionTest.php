@@ -11,7 +11,14 @@ class QuestionTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    /**
+     * Testing a question has many answers.
+     *
+     * Testing one-to-many relationship with Answer.
+     *
+     * @test
+     * @covers \App\Models\Question
+     */
     public function a_question_has_many_answers()
     {
         $question = Question::factory()->create();
@@ -20,7 +27,12 @@ class QuestionTest extends TestCase
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Relations\HasMany', $question->answers());
     }
 
-    /** @test */
+    /**
+     * Testing a question is published only if attribute 'published_at' is not null.
+     *
+     * @test
+     * @covers \App\Models\Question
+     */
     public function questions_with_published_at_date_are_published()
     {
         $publishedQuestion1 = Question::factory()->published()->create();
@@ -33,7 +45,12 @@ class QuestionTest extends TestCase
         $this->assertFalse($publishedQuestions->contains($unpublishedQuestion));
     }
 
-    /** @test */
+    /**
+     * Testing a question can mark one of its answer as the best answer.
+     *
+     * @test
+     * @covers \App\Models\Question
+     */
     public function can_mark_an_answer_as_best()
     {
         $question = create(Question::class, ['best_answer_id' => null]);
@@ -45,7 +62,14 @@ class QuestionTest extends TestCase
 
     }
 
-    /** @test  */
+    /**
+     * Testing a question belongs to a creator.
+     *
+     * Testing many-to-one relationship with User.
+     *
+     * @test
+     * @covers \App\Models\Question
+     */
     public function a_question_belongs_to_a_creator()
     {
         $question = create(Question::class);

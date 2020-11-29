@@ -11,7 +11,12 @@ class BestAnswerTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    /**
+     * Testing a guest cannot mark an answer as the best answer.
+     *
+     * @test
+     * @covers \App\Http\Controllers\BestAnswersController
+     */
     public function guests_cannot_mark_best_answer()
     {
         $question = create(Question::class);
@@ -23,8 +28,13 @@ class BestAnswerTest extends TestCase
             ->assertRedirect(route('login'));
     }
 
-    /** @test */
-    public function question_creator_can_mark_one_answer_as_the_best()
+    /**
+     * Testing the question creator can mark an answer as the best answer.
+     *
+     * @test
+     * @covers \App\Http\Controllers\AnswersController
+     */
+    public function question_creator_can_mark_an_answer_as_the_best()
     {
         $this->signIn();
 
@@ -41,8 +51,13 @@ class BestAnswerTest extends TestCase
         $this->assertTrue($answers[1]->fresh()->isBest());
     }
 
-    /** @test */
-    public function only_the_question_creator_can_mark_a_best_answer()
+    /**
+     * Testing only the question creator can mark an answer as the best answer.
+     *
+     * @test
+     * @covers \App\Http\Controllers\AnswersController
+     */
+    public function only_the_question_creator_can_mark_best_answer()
     {
         $this->withExceptionHandling();
 

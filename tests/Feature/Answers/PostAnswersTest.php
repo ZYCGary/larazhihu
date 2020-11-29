@@ -11,8 +11,13 @@ class PostAnswersTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function guests_may_not_post_an_answer()
+    /**
+     * Testing a guest cannot post an answer.
+     *
+     * @test
+     * @covers \App\Http\Controllers\AnswersController
+     */
+    public function guest_cannot_post_an_answer()
     {
         $this->expectException('Illuminate\Auth\AuthenticationException');
         $question = Question::factory()->published()->create();
@@ -26,8 +31,13 @@ class PostAnswersTest extends TestCase
             ->assertRedirect(route('login'));
     }
 
-    /** @test */
-    public function signed_in_user_can_post_an_answer_to_a_published_question()
+    /**
+     * Testing a member can post an answer to a published question.
+     *
+     * @test
+     * @covers \App\Http\Controllers\AnswersController
+     */
+    public function member_can_answer_a_published_question()
     {
         $question = Question::factory()->published()->create();
         $user = create(User::class);
@@ -45,8 +55,13 @@ class PostAnswersTest extends TestCase
         $this->assertEquals(1, $question->answers->count());
     }
 
-    /** @test */
-    public function cannot_post_an_answer_to_an_unpublished_question()
+    /**
+     * Testing a user cannot post an answer to an unpublished question.
+     *
+     * @test
+     * @covers \App\Http\Controllers\AnswersController
+     */
+    public function user_cannot_answer_an_unpublished_question()
     {
         $question = Question::factory()->unpublished()->create();
         $user = create(User::class);
@@ -64,8 +79,13 @@ class PostAnswersTest extends TestCase
         $this->assertEquals(0, $question->answers()->count());
     }
 
-    /** @test */
-    public function content_is_required_to_post_answer()
+    /**
+     * Testing a user must include 'content' in his/her answer.
+     *
+     * @test
+     * @covers \App\Http\Controllers\AnswersController
+     */
+    public function content_is_required()
     {
         $this->withExceptionHandling();
 

@@ -5,19 +5,46 @@ namespace Tests\Contract;
 use App\Models\User;
 use Auth;
 use Exception;
+use Illuminate\Database\Eloquent\Model;
 
 trait VoteDownContractTest
 {
-
+    /**
+     * Get the route for voting down $model.
+     *
+     * @param string|null $model
+     * @return mixed
+     */
     abstract protected function getVoteDownRoute($model = null);
 
+    /**
+     * Get the route for cancelling the down vote to $model.
+     *
+     * @param string|null $model
+     * @return mixed
+     */
     abstract protected function getCancelVoteDownRoute($model = null);
 
-    abstract protected function downVotes($model);
+    /**
+     * Get all the down votes to $model.
+     *
+     * @param Model $model
+     * @return mixed
+     */
+    abstract protected function downVotes(Model $model);
 
+    /**
+     * Get the $model.
+     *
+     * @return string
+     */
     abstract protected function getModel();
 
-    /** @test */
+    /**
+     * Testing a guest cannot vote down.
+     *
+     * @test
+     */
     public function guest_cannot_vote_down()
     {
         $this->withExceptionHandling();
@@ -26,8 +53,12 @@ trait VoteDownContractTest
             ->assertRedirect(route('login'));
     }
 
-    /** @test */
-    public function authenticated_user_can_vote_down()
+    /**
+     * Testing a member can vote down.
+     *
+     * @test
+     */
+    public function member_can_vote_down()
     {
         $this->signIn();
 
@@ -39,8 +70,12 @@ trait VoteDownContractTest
         $this->assertCount(1, $this->downVotes($model));
     }
 
-    /** @test */
-    public function authenticated_user_can_cancel_vote_down()
+    /**
+     * Testing a member can cancel a down vote.
+     *
+     * @test
+     */
+    public function member_can_cancel_down_vote()
     {
         $this->signIn();
 
@@ -56,8 +91,12 @@ trait VoteDownContractTest
         $this->assertCount(0, $this->downVotes($model));
     }
 
-    /** @test */
-    public function authenticated_user_can_vote_down_only_once()
+    /**
+     * Testing a member user can vote down only once.
+     *
+     * @test
+     */
+    public function member_can_vote_down_only_once()
     {
         $this->signIn();
 
@@ -73,8 +112,12 @@ trait VoteDownContractTest
         $this->assertCount(1, $this->downVotes($model));
     }
 
-    /** @test */
-    public function authenticated_user_can_know_if_an_answer_is_voted_down()
+    /**
+     * Testing a member can know whether he/she has voted down.
+     *
+     * @test
+     */
+    public function member_can_know_if_is_voted_down()
     {
         $this->signIn();
 
@@ -85,8 +128,12 @@ trait VoteDownContractTest
         $this->assertTrue($model->refresh()->isVotedDown(Auth::user()));
     }
 
-    /** @test */
-    public function authenticated_user_can_know_down_votes_count()
+    /**
+     * Testing a member can know the count of down votes.
+     *
+     * @test
+     */
+    public function member_can_know_down_votes_count()
     {
         $model = create($this->getModel());
 

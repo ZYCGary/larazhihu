@@ -7,17 +7,20 @@ use App\Models\Question;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Tests\Contract\FormValidationContractTest;
 use Tests\TestCase;
 
 class CreateQuestionsTest extends TestCase
 {
     use RefreshDatabase;
-    use FormValidationContractTest;
     use WithFaker;
 
-    /** @test */
-    public function guest_cannot_create_question()
+    /**
+     * Testing a guest cannot creat a question.
+     *
+     * @test
+     * @covers \App\Http\Controllers\QuestionsController
+     */
+    public function guest_cannot_create_a_question()
     {
         $this->withExceptionHandling();
 
@@ -25,8 +28,13 @@ class CreateQuestionsTest extends TestCase
             ->assertRedirect(route('login'));
     }
 
-    /** @test */
-    public function an_authenticated_user_can_create_new_questions()
+    /**
+     * Testing a member can creat a new question.
+     *
+     * @test
+     * @covers \App\Http\Controllers\QuestionsController
+     */
+    public function member_can_create_a_question()
     {
         $this->signIn();
 
@@ -40,26 +48,72 @@ class CreateQuestionsTest extends TestCase
         $this->assertCount(1, Question::all());
     }
 
-    /** @test */
-    public function title_is_required_to_post_a_question()
+    /**
+     * Testing a user must include a 'title' in his/her question.
+     *
+     * @test
+     * @covers \App\Http\Controllers\QuestionsController
+     */
+    public function title_is_required()
     {
-        $this->attribute_is_required('questions.store', Question::class, 'title');
+        $this->withExceptionHandling();
+
+        $this->signIn();
+
+        $question = make(Question::class, ['title' => null]);
+
+        $response = $this->post(route('questions.store', $question->toArray()));
+
+        $response->assertRedirect();
+        $response->assertSessionHasErrors('title');    }
+
+    /**
+     * Testing a user must include 'content' in his/her question.
+     *
+     * @test
+     * @covers \App\Http\Controllers\QuestionsController
+     */
+    public function content_is_required()
+    {
+        $this->withExceptionHandling();
+
+        $this->signIn();
+
+        $question = make(Question::class, ['content' => null]);
+
+        $response = $this->post(route('questions.store', $question->toArray()));
+
+        $response->assertRedirect();
+        $response->assertSessionHasErrors('content');
     }
 
-    /** @test */
-    public function content_is_required_to_post_a_question()
+    /**
+     * Testing a user must select a 'category' for his/her question.
+     *
+     * @test
+     * @covers \App\Http\Controllers\QuestionsController
+     */
+    public function category_is_required_to_post_a_question()
     {
-        $this->attribute_is_required('questions.store', Question::class, 'content');
+        $this->withExceptionHandling();
+
+        $this->signIn();
+
+        $question = make(Question::class, ['category_id' => null]);
+
+        $response = $this->post(route('questions.store', $question->toArray()));
+
+        $response->assertRedirect();
+        $response->assertSessionHasErrors('category_id');
     }
 
-    /** @test */
-    public function category_id_is_required_to_post_a_question()
-    {
-        $this->attribute_is_required('questions.store', Question::class, 'category_id');
-    }
-
-    /** @test */
-    public function category_id_exists()
+    /**
+     * Testing a user must select a category which exists.
+     *
+     * @test
+     * @covers \App\Http\Controllers\QuestionsController
+     */
+    public function category_exists()
     {
         $this->withExceptionHandling();
 
@@ -77,8 +131,13 @@ class CreateQuestionsTest extends TestCase
         $response->assertSessionHasErrors('category_id');
     }
 
-    /** @test */
-    public function unverified_user_cannot_create_questions()
+    /**
+     * Testing a user cannot create questions without verifying email.
+     *
+     * @test
+     * @covers \App\Http\Controllers\QuestionsController
+     */
+    public function unverified_user_cannot_create_a_question()
     {
         $this->signIn(create(User::class, ['email_verified_at' => null]));
 

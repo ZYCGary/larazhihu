@@ -12,8 +12,13 @@ class DeleteAnswersTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function guest_cannot_delete_answers()
+    /**
+     * Testing a guest cannot delete an answer.
+     *
+     * @test
+     * @covers \App\Http\Controllers\AnswersController
+     */
+    public function guest_cannot_delete_an_answer()
     {
         $this->withExceptionHandling();
 
@@ -23,8 +28,13 @@ class DeleteAnswersTest extends TestCase
             ->assertRedirect(route('login'));
     }
 
-    /** @test */
-    public function unauthorized_user_cannot_delete_answers()
+    /**
+     * Testing only the answer creator can delete the answer.
+     *
+     * @test
+     * @covers \App\Http\Controllers\AnswersController
+     */
+    public function unauthorized_user_cannot_delete_an_answer()
     {
         $this->withExceptionHandling();
 
@@ -36,8 +46,13 @@ class DeleteAnswersTest extends TestCase
             ->assertStatus(403);
     }
 
-    /** @test */
-    public function authorized_user_can_delete_answers()
+    /**
+     * Testing a member can delete an answer created by him/her.
+     *
+     * @test
+     * @covers \App\Http\Controllers\AnswersController
+     */
+    public function member_can_delete_an_answer()
     {
         $this->signIn();
 

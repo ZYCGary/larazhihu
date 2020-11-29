@@ -5,19 +5,47 @@ namespace Tests\Contract;
 use App\Models\User;
 use Auth;
 use Exception;
+use Illuminate\Database\Eloquent\Model;
 
 trait VoteUpContractTest
 {
 
+    /**
+     * Get the route for voting up $model.
+     *
+     * @param string|null $model
+     * @return mixed
+     */
     abstract protected function getVoteUpRoute($model = null);
 
+    /**
+     * Get the route for cancelling the up vote to $model.
+     *
+     * @param string|null $model
+     * @return mixed
+     */
     abstract protected function getCancelVoteUpRoute($model = null);
 
-    abstract protected function upVotes($model);
+    /**
+     * Get all the up votes to $model.
+     *
+     * @param Model $model
+     * @return mixed
+     */
+    abstract protected function upVotes(Model $model);
 
+    /**
+     * Get the $model.
+     *
+     * @return string mixed
+     */
     abstract protected function getModel();
 
-    /** @test */
+    /**
+     * Testing a guest cannot vote up.
+     *
+     * @test
+     */
     public function guest_cannot_vote_up()
     {
         $this->withExceptionHandling();
@@ -26,8 +54,12 @@ trait VoteUpContractTest
             ->assertRedirect(route('login'));
     }
 
-    /** @test */
-    public function authenticated_user_can_vote_up()
+    /**
+     * Testing a member can vote up.
+     *
+     * @test
+     */
+    public function member_can_vote_up()
     {
         $this->signIn();
 
@@ -39,8 +71,12 @@ trait VoteUpContractTest
         $this->assertCount(1, $this->upVotes($model));
     }
 
-    /** @test */
-    public function authenticated_user_can_cancel_vote_up()
+    /**
+     * Testing a member can cancel an up vote.
+     *
+     * @test
+     */
+    public function member_can_cancel_up_vote()
     {
         $this->signIn();
 
@@ -56,8 +92,12 @@ trait VoteUpContractTest
         $this->assertCount(0, $this->upVotes($model));
     }
 
-    /** @test */
-    public function authenticated_user_can_vote_up_only_once()
+    /**
+     * Testing a member can vote up only once.
+     *
+     * @test
+     */
+    public function member_can_vote_up_only_once()
     {
         $this->signIn();
 
@@ -73,8 +113,12 @@ trait VoteUpContractTest
         $this->assertCount(1, $this->upVotes($model));
     }
 
-    /** @test */
-    public function authenticated_user_can_know_if_an_answer_is_voted_up()
+    /**
+     * Testing a member can know whether he/she has voted up.
+     *
+     * @test
+     */
+    public function member_can_know_if_is_voted_up()
     {
         $this->signIn();
 
@@ -85,8 +129,12 @@ trait VoteUpContractTest
         $this->assertTrue($model->refresh()->isVotedUp(Auth::user()));
     }
 
-    /** @test */
-    public function authenticated_user_can_know_up_votes_count()
+    /**
+     * Testing a member can know the count of up votes.
+     *
+     * @test
+     */
+    public function member_can_know_up_votes_count()
     {
         $model = create($this->getModel());
 

@@ -14,6 +14,7 @@ class CreateQuestionsTest extends TestCase
 {
     use RefreshDatabase;
     use FormValidationContractTest;
+    use WithFaker;
 
     /** @test */
     public function guest_cannot_create_question()
@@ -67,7 +68,7 @@ class CreateQuestionsTest extends TestCase
         $category = create(Category::class);
 
         $question = make(Question::class, [
-            'category_id' => $category->id + 1
+            'category_id' => $this->faker->randomDigitNot($category->id)
         ]);
 
         $response = $this->post(route('questions.store', $question->toArray()));

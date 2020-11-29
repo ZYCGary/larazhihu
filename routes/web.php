@@ -23,7 +23,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('/questions', [QuestionsController::class, 'index'])->name('questions.index');
 Route::post('/questions', [QuestionsController::class, 'store'])->name('questions.store');

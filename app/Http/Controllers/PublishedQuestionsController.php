@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Question;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
+use App\Models\User;
+use App\Notifications\YouWereMentioned;
 
 class PublishedQuestionsController extends Controller
 {
@@ -17,7 +17,18 @@ class PublishedQuestionsController extends Controller
     {
         $this->authorize('update', $question);
 
-        $question->update([
-            'published_at' => Carbon::now()]);
+        preg_match_all('/@([^\s.]+)/', $question->content, $matches);
+
+        $names = $matches[1];
+
+        foreach ($names as $name) {
+            $user = User::whereName($name)->first();
+
+            if ($user) {
+                $user->notify(new YouWereMentioned($question));
+            }
+        }
+
+        $question->publish();
     }
 }

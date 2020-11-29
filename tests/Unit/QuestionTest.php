@@ -77,4 +77,21 @@ class QuestionTest extends TestCase
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Relations\BelongsTo', $question->creator());
         $this->assertInstanceOf('App\Models\User', $question->creator);
     }
+
+    /**
+     * Testing a question can be published.
+     *
+     * @test
+     * @covers \App\Models\Question
+     */
+    public function a_question_can_be_published()
+    {
+        $question = create(Question::class, ['published_at' => null]);
+
+        $this->assertCount(0, Question::published()->get());
+
+        $question->publish();
+
+        $this->assertCount(1, Question::published()->get());
+    }
 }

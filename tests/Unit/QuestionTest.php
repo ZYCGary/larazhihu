@@ -94,4 +94,20 @@ class QuestionTest extends TestCase
 
         $this->assertCount(1, Question::published()->get());
     }
+
+    /**
+     * Testing a question can detect all mentioned usernames from the content.
+     *
+     * @test
+     * @covers \App\Models\Question
+     */
+    public function a_question_can_detect_all_mentioned_users()
+    {
+        $question = create(Question::class, [
+            'content' => 'I mentioned @Nancy and @Lily.'
+        ]);
+
+        $this->assertEquals(['Nancy', 'Lily'], $question->mentionedUsers());
+    }
+
 }

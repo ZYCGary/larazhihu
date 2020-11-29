@@ -8,12 +8,12 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class InviteUsersTest extends TestCase
+class MentionUsersTest extends TestCase
 {
     use RefreshDatabase;
 
     /**
-     * Testing a member whose name was mentioned in a question can be notified when the question is published.
+     * Testing a user whose name was mentioned in a question can be notified when the question is published.
      *
      * @test
      * @covers \App\Http\Controllers\PublishedQuestionsController
@@ -39,7 +39,7 @@ class InviteUsersTest extends TestCase
     }
 
     /**
-     * Testing all the members whose name were mentioned in a question can be notified when the question is published.
+     * Testing all the users whose name were mentioned in a question can be notified when the question is published.
      *
      * @test
      * @covers \App\Http\Controllers\PublishedQuestionsController

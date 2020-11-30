@@ -11,6 +11,8 @@ use Tests\TestCase;
 
 class ViewDraftsTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * Testing a guest cannot view the list of question drafts.
      *

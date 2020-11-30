@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\QuestionRequest;
 use App\Models\Category;
 use App\Models\Question;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Symfony\Component\Console\Input\Input;
 
@@ -16,9 +17,24 @@ class QuestionsController extends Controller
         $this->middleware('verified')->except(['index', 'show']);
     }
 
-    public function index()
+    public function index(Category $category, Request $request)
     {
+        if ($category->exists) {
+            $questions = Question::published()->where('category_id', $category->id);
+        } else {
+            $questions = Question::published();
+        }
 
+        if ($username = $request->query('by')) {
+            $user = User::whereName($username)->firstOrFail();
+            $questions = Question::published()->where('user_id', $user->id);
+        }
+
+        $questions = $questions->paginate(20);
+
+        return view('questions.index', [
+            'questions' => $questions
+        ]);
     }
 
     public function create(Question $question)

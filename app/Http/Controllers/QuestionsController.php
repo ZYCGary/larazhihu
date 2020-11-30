@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\QuestionFilter;
 use App\Http\Requests\QuestionRequest;
 use App\Models\Category;
 use App\Models\Question;
@@ -17,7 +18,7 @@ class QuestionsController extends Controller
         $this->middleware('verified')->except(['index', 'show']);
     }
 
-    public function index(Category $category, Request $request)
+    public function index(Category $category, QuestionFilter $filters)
     {
         if ($category->exists) {
             $questions = Question::published()->where('category_id', $category->id);
@@ -25,12 +26,7 @@ class QuestionsController extends Controller
             $questions = Question::published();
         }
 
-        if ($username = $request->query('by')) {
-            $user = User::whereName($username)->firstOrFail();
-            $questions = Question::published()->where('user_id', $user->id);
-        }
-
-        $questions = $questions->paginate(20);
+        $questions = $questions->filter($filters)->paginate(20);
 
         return view('questions.index', [
             'questions' => $questions

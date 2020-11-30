@@ -26,6 +26,11 @@ class Question extends Model
             ->whereNull('published_at');
     }
 
+    public function scopeFilter($query, $filters)
+    {
+        return $filters->apply($query);
+    }
+
     public function markAsBest($answer)
     {
         $this->update([

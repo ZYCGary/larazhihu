@@ -4,6 +4,8 @@ namespace Tests\Unit;
 
 use App\Models\Answer;
 use App\Models\Question;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -108,6 +110,36 @@ class QuestionTest extends TestCase
         ]);
 
         $this->assertEquals(['Nancy', 'Lily'], $question->mentionedUsers());
+    }
+
+    /**
+     * Test a questions is a draft if the attribute 'published_at' is null.
+     *
+     * @test
+     * @covers \App\Models\Question
+     */
+    public function questions_without_published_at_data_are_drafts()
+    {
+        $user = create(User::class);
+
+        $draft1 = create(Question::class, [
+            'user_id' => $user->id,
+            'published_at' => null
+        ]);
+        $draft2 = create(Question::class, [
+            'user_id' => $user->id,
+            'published_at' => null
+        ]);
+        $publishedQuestion = create(Question::class, [
+            'user_id' => $user->id,
+            'published_at' => Carbon::now()
+        ]);
+
+        $drafts = Question::drafts($user)->get();
+
+        $this->assertTrue($drafts->contains($draft1));
+        $this->assertTrue($drafts->contains($draft2));
+        $this->assertFalse($drafts->contains($publishedQuestion));
     }
 
 }

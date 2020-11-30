@@ -43,7 +43,7 @@ class CreateQuestionsTest extends TestCase
         $this->assertCount(0, Question::all());
 
         $this->post(route('questions.store', $question->toArray()))
-            ->assertRedirect(route('questions.show', ['question' => Question::first()->id]));
+            ->assertRedirect(route('drafts.index'));
 
         $this->assertCount(1, Question::all());
     }

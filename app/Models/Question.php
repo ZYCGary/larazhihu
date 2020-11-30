@@ -20,6 +20,12 @@ class Question extends Model
         return $query->whereNotNull('published_at');
     }
 
+    public function scopeDrafts($query, User $user)
+    {
+        return $query->where(['user_id' => $user->id])
+            ->whereNull('published_at');
+    }
+
     public function markAsBest($answer)
     {
         $this->update([

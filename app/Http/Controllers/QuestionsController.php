@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\QuestionRequest;
+use App\Models\Category;
 use App\Models\Question;
 use Illuminate\Http\Request;
 use Symfony\Component\Console\Input\Input;
@@ -18,6 +19,16 @@ class QuestionsController extends Controller
     public function index()
     {
 
+    }
+
+    public function create(Question $question)
+    {
+        $categories = Category::all();
+
+        return view('questions.create', [
+            'question' => $question,
+            'categories' => $categories
+        ]);
     }
 
     public function show($questionId)
@@ -45,6 +56,6 @@ class QuestionsController extends Controller
             'content' => $request->input('content'),
         ]);
 
-        return redirect("/questions/$question->id")->with('flash', 'Create the question successfully！');
+        return redirect(route('drafts.index'))->with('flash', 'Create the question successfully！');
     }
 }

@@ -21,6 +21,7 @@ class CreateQuestionsTable extends Migration
             $table->text('content');
             $table->dateTime('published_at')->nullable();
             $table->unsignedBigInteger('best_answer_id')->nullable();
+            $table->unsignedBigInteger('popularity')->default(0);
             $table->timestamps();
         });
     }

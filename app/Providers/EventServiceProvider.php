@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Http\Controllers\PublishedQuestionsController;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use App\Events\QuestionPublished;

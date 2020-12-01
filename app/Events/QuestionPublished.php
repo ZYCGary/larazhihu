@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\Category;
 use App\Models\Question;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -25,5 +26,6 @@ class QuestionPublished
     public function __construct(Question $question)
     {
         $this->question = $question;
+        $this->category = Category::find($question->category_id)->slug;
     }
 }

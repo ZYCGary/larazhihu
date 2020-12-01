@@ -6,9 +6,6 @@ use App\Filters\QuestionFilter;
 use App\Http\Requests\QuestionRequest;
 use App\Models\Category;
 use App\Models\Question;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Symfony\Component\Console\Input\Input;
 
 class QuestionsController extends Controller
 {
@@ -20,13 +17,17 @@ class QuestionsController extends Controller
 
     public function index(Category $category, QuestionFilter $filters)
     {
+        // Filter question by category
         if ($category->exists) {
             $questions = Question::published()->where('category_id', $category->id);
         } else {
             $questions = Question::published();
         }
 
-        $questions = $questions->filter($filters)->paginate(20);
+        // Filter question in terms of filter conditions
+        $questions = $questions->filter($filters);
+
+        $questions = $questions->paginate(20);
 
         return view('questions.index', [
             'questions' => $questions
@@ -43,7 +44,7 @@ class QuestionsController extends Controller
         ]);
     }
 
-    public function show($questionId)
+    public function show($category, $questionId)
     {
         $question = Question::published()->findOrFail($questionId);
 

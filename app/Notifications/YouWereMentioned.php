@@ -2,6 +2,8 @@
 
 namespace App\Notifications;
 
+use App\Events\QuestionPublished;
+use App\Models\Category;
 use App\Models\Question;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -20,7 +22,7 @@ class YouWereMentioned extends Notification
     /**
      * Create a new notification instance.
      *
-     * @param Question $question
+     * @param QuestionPublished $event
      */
     public function __construct(Question $question)
     {
@@ -52,7 +54,10 @@ class YouWereMentioned extends Notification
             'user_id' => $questionCreator->id,
             'user_name' => $questionCreator->name,
             'user_avatar' => $questionCreator->userAvatar,
-            'question_link' => route('questions.show', $this->question->id),
+            'question_link' => route('questions.show', [
+                'category' => Category::find($this->question->category_id)->slug,
+                'question' =>$this->question->id
+            ]),
             'question_title' => $this->question->title,
         ];
     }

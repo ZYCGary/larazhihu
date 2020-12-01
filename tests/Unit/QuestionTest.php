@@ -60,7 +60,7 @@ class QuestionTest extends TestCase
 
         $question->markAsBest($answer);
 
-        $this->assertEquals($question->best_answer_id, $answer->isBest());
+        $this->assertEquals($question->best_answer_id, $answer->id);
 
     }
 
@@ -140,6 +140,25 @@ class QuestionTest extends TestCase
         $this->assertTrue($drafts->contains($draft1));
         $this->assertTrue($drafts->contains($draft2));
         $this->assertFalse($drafts->contains($publishedQuestion));
+    }
+
+    /**
+     * Testing a questions can increment its popularity when an answer created.
+     *
+     * 'popularity' attribute illustrates the number of answers to this question. Once an answer created, the
+     * question popularity increments.
+     *
+     * @test
+     * @covers \App\Models\Question
+     */
+    public function a_question_has_popularity_attribute()
+    {
+        $question = create(Question::class);
+        $this->assertEquals(0, $question->refresh()->popularity);
+
+        create(Answer::class, ['question_id'=>$question->id]);
+
+        $this->assertEquals(1, $question->refresh()->popularity);
     }
 
 }

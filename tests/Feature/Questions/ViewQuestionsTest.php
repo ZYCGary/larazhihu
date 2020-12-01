@@ -3,6 +3,7 @@
 namespace Tests\Feature\Questions;
 
 use App\Models\Answer;
+use App\Models\Category;
 use App\Models\Question;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -32,9 +33,13 @@ class ViewQuestionsTest extends TestCase
      */
     public function user_can_view_a_published_question()
     {
-        $question = Question::factory()->published()->create();
+        $category = create(Category::class);
+        $question = Question::factory()->published()->create(['category_id' => $category->id]);
 
-        $this->get(route('questions.show', ['question' => $question->id]))
+        $this->get(route('questions.show', [
+            'category' => $category->slug,
+            'question' => $question->id
+        ]))
             ->assertStatus(200)
             ->assertSee($question->title)
             ->assertSee($question->content);
@@ -49,10 +54,17 @@ class ViewQuestionsTest extends TestCase
     public function user_cannot_view_an_unpublished_question()
     {
         $this->withExceptionHandling();
-        $question = Question::factory()->unpublished()->create();
+
+        $category = create(Category::class);
+        $question = Question::factory()->unpublished()->create([
+            'category_id' => $category->id
+        ]);
 
         $this->withExceptionHandling()
-            ->get(route('questions.show', ['question' => $question->id]))
+            ->get(route('questions.show', [
+                'category' => $category->slug,
+                'question' => $question->id
+            ]))
             ->assertStatus(404);
     }
 
@@ -64,10 +76,14 @@ class ViewQuestionsTest extends TestCase
      */
     public function user_can_see_answers_when_viewing_a_published_question()
     {
-        $question = Question::factory()->published()->create();
+        $category = create(Category::class);
+        $question = Question::factory()->published()->create(['category_id' => $category->id]);
         create(Answer::class, ['question_id' => $question->id], 40);
 
-        $response = $this->get(route('questions.show', ['question' => $question->id]));
+        $response = $this->get(route('questions.show', [
+            'category' => $category->slug,
+            'question' => $question->id
+        ]));
 
         $result = $response->viewData('answers')->toArray();
 

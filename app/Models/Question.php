@@ -57,8 +57,13 @@ class Question extends Model
 
     public function mentionedUsers()
     {
-        preg_match_all('/@([^\s.]+)/', $this->content,$matches);
+        preg_match_all('/@([^\s.]+)/', $this->content, $matches);
 
         return $matches[1];
+    }
+
+    public function incrementPopularity()
+    {
+        $this->increment('popularity');
     }
 }

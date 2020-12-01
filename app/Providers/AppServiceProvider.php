@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Answer;
+use App\Models\User;
+use App\Observers\AnswerObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,6 +28,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Answer::observe(AnswerObserver::class);
     }
 }

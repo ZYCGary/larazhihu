@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\VoteTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,8 +13,14 @@ use Illuminate\Database\Eloquent\Model;
 class Question extends Model
 {
     use HasFactory;
+    use VoteTrait;
 
     protected $guarded = ['id'];
+
+    protected $appends = [
+        'upVotesCount',
+        'downVotesCount',
+    ];
 
     public function scopePublished($query)
     {

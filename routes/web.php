@@ -6,7 +6,9 @@ use App\Http\Controllers\AnswerUpVotesController;
 use App\Http\Controllers\BestAnswersController;
 use App\Http\Controllers\DraftsController;
 use App\Http\Controllers\PublishedQuestionsController;
+use App\Http\Controllers\QuestionDownVotesController;
 use App\Http\Controllers\QuestionsController;
+use App\Http\Controllers\QuestionUpVotesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,5 +44,10 @@ Route::post('/answers/{answer}/up-votes', [AnswerUpVotesController::class, 'stor
 Route::delete('/answers/{answer}/up-votes', [AnswerUpVotesController::class, 'destroy'])->name('answer-up-votes.destroy');
 Route::post('/answers/{answer}/down-votes', [AnswerDownVotesController::class, 'store'])->name('answer-down-votes.store');
 Route::delete('/answers/{answer}/down-votes', [AnswerDownVotesController::class, 'destroy'])->name('answer-down-votes.destroy');
+
+Route::post('/questions/{question}/up-votes', [QuestionUpVotesController::class, 'store'])->name('question-up-votes.store');
+Route::delete('/questions/{question}/up-votes', [QuestionUpVotesController::class, 'destroy'])->name('question-up-votes.destroy');
+Route::post('/questions/{question}/down-votes', [QuestionDownVotesController::class, 'store'])->name('question-down-votes.store');
+Route::delete('/questions/{question}/down-votes', [QuestionDownVotesController::class, 'destroy'])->name('question-down-votes.destroy');
 
 Route::get('/drafts', [DraftsController::class, 'index'])->name('drafts.index');

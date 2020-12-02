@@ -18,7 +18,7 @@ class AnswersController extends Controller
     {
         $question = Question::published()->findOrFail($questionId);
 
-        $question->answers()->create([
+        $question->addAnAnswer([
             'user_id' => auth()->id(),
             'content' => request('content')
         ]);

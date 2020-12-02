@@ -14,18 +14,14 @@ class FollowQuestionsController extends Controller
 
     public function store(Question $question)
     {
-        $question->followers()->create([
-            'user_id' => auth()->id()
-        ]);
+        $question->followedBy(auth()->id());
 
         return response([], 201);
     }
 
     public function destroy(Question $question)
     {
-        $question->followers()
-            ->where(['user_id' => auth()->id()])
-            ->delete();
+        $question->unfollowedBy(auth()->id());
 
         return response([], 201);
     }

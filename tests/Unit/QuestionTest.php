@@ -157,7 +157,7 @@ class QuestionTest extends TestCase
         $question = create(Question::class);
         $this->assertEquals(0, $question->refresh()->popularity);
 
-        create(Answer::class, ['question_id'=>$question->id]);
+        create(Answer::class, ['question_id' => $question->id]);
 
         $this->assertEquals(1, $question->refresh()->popularity);
     }
@@ -177,6 +177,64 @@ class QuestionTest extends TestCase
         create(Following::class, ['question_id' => $question->id], 2);
 
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Relations\HasMany', $question->followers());
+    }
+
+    /**
+     * Testing a question can be followed by a given user.
+     *
+     * @test
+     * @covers \App\Models\Question
+     */
+    public function a_question_can_be_followed_by_a_user()
+    {
+        $user = create(User::class);
+
+        $question = create(Question::class);
+
+        $question->followedBy($user->id);
+
+        $this->assertCount(1, $question->followers()->where(['user_id' => $user->id])->get());
+    }
+
+    /**
+     * Testing a question can be unfollowed by a given user.
+     *
+     * @test
+     * @covers \App\Models\Question
+     */
+    public function a_question_can_be_unfollowed_by_a_user()
+    {
+        $user = create(User::class);
+        $question = create(Question::class);
+
+        create(Following::class, [
+            'user_id' => $user->id,
+            'question_id' => $question->id
+        ]);
+
+        $this->assertCount(1, $question->followers()->where(['user_id' => $user->id])->get());
+
+        $question->unfollowedBy($user->id);
+
+        $this->assertCount(0, $question->followers()->where(['user_id' => $user->id])->get());
+    }
+
+    /**
+     * Testing a question can add an answer.
+     *
+     * @test
+     * @covers \App\Models\Question
+     */
+    public function a_question_can_add_an_answer()
+    {
+        $question = create(Question::class);
+
+        $question->addAnAnswer([
+            'user_id' => create(User::class)->id,
+            'content' => 'This is content.'
+        ]);
+
+        $this->assertCount(1, $question->refresh()->answers()->get());
     }
 
 }

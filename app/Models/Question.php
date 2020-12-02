@@ -31,13 +31,6 @@ class Question extends Model
         return $filters->apply($query);
     }
 
-    public function markAsBest($answer)
-    {
-        $this->update([
-            'best_answer_id' => $answer->id,
-        ]);
-    }
-
     public function answers()
     {
         return $this->hasMany(Answer::class);
@@ -55,7 +48,7 @@ class Question extends Model
 
     public function publish()
     {
-        $this->update([
+        return $this->update([
             'published_at' => Carbon::now()
         ]);
     }
@@ -67,8 +60,33 @@ class Question extends Model
         return $matches[1];
     }
 
+    public function markAsBest(Answer $answer)
+    {
+        return $this->update([
+            'best_answer_id' => $answer->id,
+        ]);
+    }
+
     public function incrementPopularity()
     {
-        $this->increment('popularity');
+        return $this->increment('popularity');
+    }
+
+    public function followedBy(Int $userId)
+    {
+        return $this->followers()
+            ->create(['user_id' => $userId]);
+    }
+
+    public function unfollowedBy(Int $userId)
+    {
+        return $this->followers()
+            ->where(['user_id' => $userId])
+            ->delete();
+    }
+
+    public function addAnAnswer(Array $answerAttributes)
+    {
+        return $this->answers()->create($answerAttributes);
     }
 }

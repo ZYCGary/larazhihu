@@ -26,7 +26,7 @@
                     @endif
                     {{-- 分页 --}}
                     <div class="mt-5">
-                        {{ $questions->appends(Request::except('page'))->links() }}
+                        {{ $questions->links() }}
                     </div>
                 </div>
             </div>

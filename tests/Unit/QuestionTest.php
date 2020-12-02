@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Models\Answer;
+use App\Models\Following;
 use App\Models\Question;
 use App\Models\User;
 use Carbon\Carbon;
@@ -159,6 +160,23 @@ class QuestionTest extends TestCase
         create(Answer::class, ['question_id'=>$question->id]);
 
         $this->assertEquals(1, $question->refresh()->popularity);
+    }
+
+    /**
+     * Testing a question can have many followers.
+     *
+     * Testing one-to-many relationship with Following.
+     *
+     * @test
+     * @covers \App\Models\Question
+     */
+    public function a_question_has_many_followers()
+    {
+        $question = create(Question::class);
+
+        create(Following::class, ['question_id' => $question->id], 2);
+
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Relations\HasMany', $question->followers());
     }
 
 }

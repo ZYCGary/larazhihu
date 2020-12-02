@@ -5,6 +5,7 @@ use App\Http\Controllers\AnswersController;
 use App\Http\Controllers\AnswerUpVotesController;
 use App\Http\Controllers\BestAnswersController;
 use App\Http\Controllers\DraftsController;
+use App\Http\Controllers\FollowQuestionsController;
 use App\Http\Controllers\PublishedQuestionsController;
 use App\Http\Controllers\QuestionsController;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,9 @@ Route::get('/questions/{category?}', [QuestionsController::class, 'index'])->nam
 Route::get('/questions/create', [QuestionsController::class, 'create'])->name('questions.create');
 Route::post('/questions', [QuestionsController::class, 'store'])->name('questions.store');
 Route::get('/questions/{category}/{question}', [QuestionsController::class, 'show'])->name('questions.show');
+
+Route::post('/questions/{question}/follow', [FollowQuestionsController::class, 'store'])->name('follow-questions.store');
+Route::delete('/questions/{question}/follow', [FollowQuestionsController::class, 'destroy'])->name('follow-questions.destroy');
 
 Route::post('/questions/{question}/published-questions', [PublishedQuestionsController::class, 'store'])->name('published-questions.store');
 

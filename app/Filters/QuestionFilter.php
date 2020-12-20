@@ -3,20 +3,21 @@
 namespace App\Filters;
 
 use App\Models\User;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 
 class QuestionFilter
 {
-    protected $request;
-    protected $queryBuilder;
-    protected $filters = ['by', 'popularity', 'unanswered'];
+    protected Request $request;
+    protected Builder $queryBuilder;
+    protected array $filters = ['by', 'popularity', 'unanswered'];
 
     public function __construct(Request $request)
     {
         $this->request = $request;
     }
 
-    public function apply($builder)
+    public function apply($builder): Builder
     {
         $this->queryBuilder = $builder;
 
@@ -33,7 +34,7 @@ class QuestionFilter
         return $this->queryBuilder;
     }
 
-    protected function by($username)
+    protected function by($username): Builder
     {
         $user = User::where('name', $username)->firstOrfail();
 

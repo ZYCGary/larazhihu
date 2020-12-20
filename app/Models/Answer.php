@@ -5,11 +5,11 @@ namespace App\Models;
 use App\Models\Traits\VoteTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * App\Models\Answer
  *
- * @mixin IdeHelperAnswer
  * @property int $id
  * @property int $user_id
  * @property int $question_id
@@ -41,17 +41,17 @@ class Answer extends Model
         'downVotesCount',
     ];
 
-    public function isBest()
+    public function isBest(): bool
     {
         return $this->id === $this->question->best_answer_id;
     }
 
-    public function question()
+    public function question(): BelongsTo
     {
         return $this->belongsTo(Question::class);
     }
 
-    public function owner()
+    public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }

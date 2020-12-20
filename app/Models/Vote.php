@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * App\Models\Vote
  *
- * @mixin IdeHelperVote
  * @property int $id
  * @property int $user_id
  * @property int $votable_id

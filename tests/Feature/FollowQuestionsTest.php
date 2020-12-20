@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Models\Following;
 use App\Models\Question;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class FollowQuestionsTest extends TestCase

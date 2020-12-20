@@ -10,7 +10,6 @@ use Illuminate\Notifications\Notifiable;
 /**
  * App\Models\User
  *
- * @mixin IdeHelperUser
  * @property int $id
  * @property string $name
  * @property string $email

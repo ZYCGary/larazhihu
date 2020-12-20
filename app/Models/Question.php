@@ -5,11 +5,12 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * App\Models\Question
  *
- * @mixin IdeHelperQuestion
  * @property int $id
  * @property int $user_id
  * @property int $category_id
@@ -64,22 +65,22 @@ class Question extends Model
         return $filters->apply($query);
     }
 
-    public function answers()
+    public function answers(): HasMany
     {
         return $this->hasMany(Answer::class);
     }
 
-    public function followers()
+    public function followers(): HasMany
     {
         return $this->hasMany(Following::class);
     }
 
-    public function creator()
+    public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function publish()
+    public function publish(): bool
     {
         return $this->update([
             'published_at' => Carbon::now()
@@ -93,19 +94,19 @@ class Question extends Model
         return $matches[1];
     }
 
-    public function markAsBest(Answer $answer)
+    public function markAsBest(Answer $answer): bool
     {
         return $this->update([
             'best_answer_id' => $answer->id,
         ]);
     }
 
-    public function incrementPopularity()
+    public function incrementPopularity(): bool|int
     {
         return $this->increment('popularity');
     }
 
-    public function followedBy(Int $userId)
+    public function followedBy(Int $userId): Model
     {
         return $this->followers()
             ->create(['user_id' => $userId]);
@@ -118,7 +119,7 @@ class Question extends Model
             ->delete();
     }
 
-    public function addAnAnswer(Array $answerAttributes)
+    public function addAnAnswer(Array $answerAttributes): Model
     {
         return $this->answers()->create($answerAttributes);
     }

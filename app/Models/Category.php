@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * App\Models\Category
  *
- * @mixin IdeHelperCategory
  * @property int $id
  * @property string $name
  * @property string $slug
@@ -29,7 +28,7 @@ class Category extends Model
 
     protected $guarded = ['id'];
 
-    public function getRouteKeyName()
+    public function getRouteKeyName(): string
     {
         return 'slug';
     }

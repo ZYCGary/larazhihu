@@ -15,7 +15,7 @@ trait VoteDownContractTest
      * @param string|null $model
      * @return mixed
      */
-    abstract protected function getVoteDownRoute($model = null);
+    abstract protected function getVoteDownRoute($model = null): mixed;
 
     /**
      * Get the route for cancelling the down vote to $model.
@@ -23,7 +23,7 @@ trait VoteDownContractTest
      * @param string|null $model
      * @return mixed
      */
-    abstract protected function getCancelVoteDownRoute($model = null);
+    abstract protected function getCancelVoteDownRoute($model = null): mixed;
 
     /**
      * Get all the down votes to $model.
@@ -31,14 +31,14 @@ trait VoteDownContractTest
      * @param Model $model
      * @return mixed
      */
-    abstract protected function downVotes(Model $model);
+    abstract protected function downVotes(Model $model): mixed;
 
     /**
      * Get the $model.
      *
      * @return string
      */
-    abstract protected function getModel();
+    abstract protected function getModel(): string;
 
     /**
      * Testing a guest cannot vote down.

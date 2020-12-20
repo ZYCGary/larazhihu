@@ -3,6 +3,7 @@
 namespace Tests\Feature\Answers;
 
 use App\Models\Answer;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Contract\VoteUpContractTest;
 use Tests\TestCase;
@@ -18,7 +19,7 @@ class UpVotesTest extends TestCase
      * @param Answer|null $answer
      * @return string
      */
-    protected function getVoteUpRoute(Answer $answer = null)
+    protected function getVoteUpRoute($answer = null): string
     {
         return $answer
             ? route('answer-up-votes.store', ['answer' => $answer->id])
@@ -31,7 +32,7 @@ class UpVotesTest extends TestCase
      * @param Answer|null $answer
      * @return string
      */
-    protected function getCancelVoteUpRoute(Answer $answer = null)
+    protected function getCancelVoteUpRoute($answer = null): string
     {
         return $answer
             ? route('answer-up-votes.destroy', ['answer' => $answer->id])
@@ -44,7 +45,7 @@ class UpVotesTest extends TestCase
      * @param Answer $answer
      * @return mixed
      */
-    protected function upVotes(Answer $answer)
+    protected function upVotes($answer): Collection
     {
         return $answer->refresh()->votes('vote_up')->get();
     }
@@ -54,7 +55,7 @@ class UpVotesTest extends TestCase
      *
      * @return string
      */
-    protected function getModel()
+    protected function getModel(): string
     {
         return Answer::class;
     }

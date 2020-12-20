@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Vote whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vote whereVotableId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vote whereVotableType($value)
+ * @mixin \Eloquent
  */
 class Vote extends Model
 {

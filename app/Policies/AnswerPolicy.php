@@ -13,8 +13,7 @@ class AnswerPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param \App\Models\User $user
-     * @return mixed
+     * @param User $user
      */
     public function viewAny(User $user)
     {
@@ -24,9 +23,8 @@ class AnswerPolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Answer $answer
-     * @return mixed
+     * @param User $user
+     * @param Answer $answer
      */
     public function view(User $user, Answer $answer)
     {
@@ -36,8 +34,7 @@ class AnswerPolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param \App\Models\User $user
-     * @return mixed
+     * @param User $user
      */
     public function create(User $user)
     {
@@ -47,9 +44,8 @@ class AnswerPolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Answer $answer
-     * @return mixed
+     * @param User $user
+     * @param Answer $answer
      */
     public function update(User $user, Answer $answer)
     {
@@ -59,11 +55,11 @@ class AnswerPolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Answer $answer
-     * @return mixed
+     * @param User $user
+     * @param Answer $answer
+     * @return bool
      */
-    public function delete(User $user, Answer $answer)
+    public function delete(User $user, Answer $answer): bool
     {
         return (int)$user->id === (int)$answer->user_id;
     }
@@ -71,9 +67,8 @@ class AnswerPolicy
     /**
      * Determine whether the user can restore the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Answer $answer
-     * @return mixed
+     * @param User $user
+     * @param Answer $answer
      */
     public function restore(User $user, Answer $answer)
     {
@@ -83,9 +78,8 @@ class AnswerPolicy
     /**
      * Determine whether the user can permanently delete the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Answer $answer
-     * @return mixed
+     * @param User $user
+     * @param Answer $answer
      */
     public function forceDelete(User $user, Answer $answer)
     {

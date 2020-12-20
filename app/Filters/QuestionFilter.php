@@ -3,7 +3,7 @@
 namespace App\Filters;
 
 use App\Models\User;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class QuestionFilter

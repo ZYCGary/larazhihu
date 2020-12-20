@@ -42,6 +42,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Question whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Question whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Question whereUserId($value)
+ * @mixin \Eloquent
  */
 class Question extends Model
 {
@@ -106,20 +107,20 @@ class Question extends Model
         return $this->increment('popularity');
     }
 
-    public function followedBy(Int $userId): Model
+    public function followedBy(int $userId): Model
     {
         return $this->followers()
             ->create(['user_id' => $userId]);
     }
 
-    public function unfollowedBy(Int $userId)
+    public function unfollowedBy(int $userId)
     {
         return $this->followers()
             ->where(['user_id' => $userId])
             ->delete();
     }
 
-    public function addAnAnswer(Array $answerAttributes): Model
+    public function addAnAnswer(array $answerAttributes): Model
     {
         return $this->answers()->create($answerAttributes);
     }

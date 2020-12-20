@@ -9,6 +9,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use JetBrains\PhpStorm\ArrayShape;
 
 class YouWereMentioned extends Notification
 {
@@ -22,7 +23,7 @@ class YouWereMentioned extends Notification
     /**
      * Create a new notification instance.
      *
-     * @param QuestionPublished $event
+     * @param Question $question
      */
     public function __construct(Question $question)
     {
@@ -32,10 +33,10 @@ class YouWereMentioned extends Notification
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return array
      */
-    public function via($notifiable)
+    public function via($notifiable): array
     {
         return ['database'];
     }
@@ -43,10 +44,11 @@ class YouWereMentioned extends Notification
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return array
      */
-    public function toArray($notifiable)
+    #[ArrayShape(['user_id' => "int", 'user_name' => "string", 'user_avatar' => "mixed", 'question_link' => "string", 'question_title' => "string"])]
+    public function toArray($notifiable): array
     {
         $questionCreator = $this->question->creator;
 
@@ -56,7 +58,7 @@ class YouWereMentioned extends Notification
             'user_avatar' => $questionCreator->userAvatar,
             'question_link' => route('questions.show', [
                 'category' => Category::find($this->question->category_id)->slug,
-                'question' =>$this->question->id
+                'question' => $this->question->id
             ]),
             'question_title' => $this->question->title,
         ];

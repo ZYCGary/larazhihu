@@ -29,12 +29,19 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|Answer whereQuestionId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Answer whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Answer whereUserId($value)
+ * @mixin \Eloquent
  */
 class Answer extends Model
 {
     use HasFactory, VoteTrait;
 
     protected $guarded = ['id'];
+
+    protected $fillable = [
+        'user_id',
+        'question_id',
+        'content'
+    ];
 
     protected $appends = [
         'upVotesCount',

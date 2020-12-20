@@ -6,6 +6,9 @@ use App\Events\QuestionPublished;
 use App\Models\Question;
 use App\Models\User;
 use App\Notifications\YouWereMentioned;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 
 class PublishedQuestionsController extends Controller
 {
@@ -14,7 +17,7 @@ class PublishedQuestionsController extends Controller
         $this->middleware('auth');
     }
 
-    public function store(Question $question)
+    public function store(Question $question): Redirector|Application|RedirectResponse
     {
         $this->authorize('update', $question);
 

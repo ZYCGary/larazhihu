@@ -6,7 +6,6 @@ use App\Http\Requests\AnswerRequest;
 use App\Models\Answer;
 use App\Models\Question;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 
 class AnswersController extends Controller
 {

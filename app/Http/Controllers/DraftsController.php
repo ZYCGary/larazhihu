@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Question;
 use Auth;
-use Illuminate\Http\Request;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 
 class DraftsController extends Controller
 {
@@ -13,7 +15,7 @@ class DraftsController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(): Factory|View|Application
     {
         $drafts = Question::drafts(Auth::user())->get();
 

@@ -21,12 +21,18 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class Category extends Model
 {
     use HasFactory;
 
     protected $guarded = ['id'];
+
+    protected $fillable = [
+        'name',
+        'slug',
+    ];
 
     public function getRouteKeyName(): string
     {

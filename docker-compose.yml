@@ -27,9 +27,8 @@ services:
     #         - '/dev/shm:/dev/shm'
     #     networks:
     #         - sail
-    #     depends_on:
-    #         - laravel.test
     mysql:
+#        image: 'mysql:8.0'
         image: 'mariadb'
         ports:
             - '${FORWARD_DB_PORT:-3306}:3306'

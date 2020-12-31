@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Questions;
 
 use App\Models\Following;
 use App\Models\Question;

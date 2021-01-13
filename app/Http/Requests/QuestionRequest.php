@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 class QuestionRequest extends Request
 {
-    public function rules()
+    public function rules(): array
     {
         switch($this->method())
         {
@@ -34,7 +34,7 @@ class QuestionRequest extends Request
         }
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             // Validation messages

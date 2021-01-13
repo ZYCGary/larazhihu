@@ -16,7 +16,8 @@ class QuestionPublished
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $question;
+    public Question $question;
+    private string $category;
 
     /**
      * Create a new event instance.

@@ -22,7 +22,7 @@ abstract class TestCase extends BaseTestCase
      * @param User|null $user
      * @return TestCase $this
      */
-    protected function signIn($user = null)
+    protected function signIn($user = null): TestCase
     {
         $user = $user ?: create(User::class);
 

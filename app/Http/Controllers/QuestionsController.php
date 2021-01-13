@@ -6,6 +6,11 @@ use App\Filters\QuestionFilter;
 use App\Http\Requests\QuestionRequest;
 use App\Models\Category;
 use App\Models\Question;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 
 class QuestionsController extends Controller
 {
@@ -15,7 +20,7 @@ class QuestionsController extends Controller
         $this->middleware('verified')->except(['index', 'show']);
     }
 
-    public function index(Category $category, QuestionFilter $filters)
+    public function index(Category $category, QuestionFilter $filters): Factory|View|Application
     {
         // Filter question by category
         if ($category->exists) {
@@ -34,7 +39,7 @@ class QuestionsController extends Controller
         ]);
     }
 
-    public function create(Question $question)
+    public function create(Question $question): Factory|View|Application
     {
         $categories = Category::all();
 
@@ -44,7 +49,7 @@ class QuestionsController extends Controller
         ]);
     }
 
-    public function show($category, $questionId)
+    public function show($category, $questionId): Factory|View|Application
     {
         $question = Question::published()->findOrFail($questionId);
 
@@ -60,7 +65,7 @@ class QuestionsController extends Controller
         ]);
     }
 
-    public function store(QuestionRequest $request)
+    public function store(QuestionRequest $request): Redirector|Application|RedirectResponse
     {
         $question = Question::create([
             'user_id' => auth()->id(),

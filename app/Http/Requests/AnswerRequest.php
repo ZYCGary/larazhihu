@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 
 class AnswerRequest extends Request
 {
-    public function rules()
+    public function rules(): array
     {
         switch($this->method())
         {
@@ -33,7 +33,7 @@ class AnswerRequest extends Request
         }
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             // Validation messages

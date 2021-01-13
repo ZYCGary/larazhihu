@@ -4,6 +4,7 @@ namespace App\Models\Traits;
 
 use App\Models\User;
 use App\Models\Vote;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 trait VoteTrait
 {
@@ -21,7 +22,7 @@ trait VoteTrait
         }
     }
 
-    public function isVotedUp($user)
+    public function isVotedUp($user): bool
     {
         if (!$user) {
             return false;
@@ -30,7 +31,7 @@ trait VoteTrait
         return (bool)$this->votes('vote_up')->where('user_id', $user->id)->exists();
     }
 
-    public function getUpVotesCountAttribute()
+    public function getUpVotesCountAttribute(): int
     {
         return $this->votes('vote_up')->count();
     }
@@ -49,7 +50,7 @@ trait VoteTrait
         }
     }
 
-    public function isVotedDown($user)
+    public function isVotedDown($user): bool
     {
         if (!$user) {
             return false;
@@ -58,12 +59,12 @@ trait VoteTrait
         return $this->votes('vote_down')->where('user_id', $user->id)->exists();
     }
 
-    public function getDownVotesCountAttribute()
+    public function getDownVotesCountAttribute(): int
     {
         return $this->votes('vote_down')->count();
     }
 
-    public function votes($type)
+    public function votes($type): MorphMany
     {
         return $this->morphMany(Vote::class, 'votable')->where('type', $type);
     }

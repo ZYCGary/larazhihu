@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Answer;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class BestAnswersController extends Controller
@@ -12,7 +13,7 @@ class BestAnswersController extends Controller
         $this->middleware('auth');
     }
 
-    public function store(Answer $answer)
+    public function store(Answer $answer): RedirectResponse
     {
         $this->authorize('update', $answer->question);
 

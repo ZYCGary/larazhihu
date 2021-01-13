@@ -16,7 +16,7 @@ trait VoteUpContractTest
      * @param string|null $model
      * @return mixed
      */
-    abstract protected function getVoteUpRoute($model = null);
+    abstract protected function getVoteUpRoute($model = null): mixed;
 
     /**
      * Get the route for cancelling the up vote to $model.
@@ -24,7 +24,7 @@ trait VoteUpContractTest
      * @param string|null $model
      * @return mixed
      */
-    abstract protected function getCancelVoteUpRoute($model = null);
+    abstract protected function getCancelVoteUpRoute($model = null): mixed;
 
     /**
      * Get all the up votes to $model.
@@ -32,14 +32,14 @@ trait VoteUpContractTest
      * @param Model $model
      * @return mixed
      */
-    abstract protected function upVotes(Model $model);
+    abstract protected function upVotes(Model $model): mixed;
 
     /**
      * Get the $model.
      *
      * @return string mixed
      */
-    abstract protected function getModel();
+    abstract protected function getModel(): string;
 
     /**
      * Testing a guest cannot vote up.

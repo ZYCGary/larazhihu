@@ -3,6 +3,7 @@
 namespace Tests\Feature\Answers;
 
 use App\Models\Answer;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Contract\VoteDownContractTest;
 use Tests\TestCase;
@@ -18,7 +19,7 @@ class DownVotesTest extends TestCase
      * @param Answer|null $answer
      * @return string
      */
-    protected function getVoteDownRoute(Answer $answer = null)
+    protected function getVoteDownRoute($answer = null): string
     {
         return $answer
             ? route('answer-down-votes.store', ['answer' => $answer->id])
@@ -31,7 +32,7 @@ class DownVotesTest extends TestCase
      * @param Answer|null $answer
      * @return string
      */
-    protected function getCancelVoteDownRoute(Answer $answer = null)
+    protected function getCancelVoteDownRoute($answer = null): string
     {
         return $answer
             ? route('answer-down-votes.destroy', ['answer' => $answer->id])
@@ -42,9 +43,9 @@ class DownVotesTest extends TestCase
      * Get all the down votes to an answer.
      *
      * @param Answer $answer
-     * @return mixed
+     * @return Collection
      */
-    protected function downVotes(Answer $answer)
+    protected function downVotes($answer): Collection
     {
         return $answer->refresh()->votes('vote_down')->get();
     }
@@ -54,7 +55,7 @@ class DownVotesTest extends TestCase
      *
      * @return string
      */
-    protected function getModel()
+    protected function getModel(): string
     {
         return Answer::class;
     }

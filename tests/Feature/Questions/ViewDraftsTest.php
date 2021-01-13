@@ -1,12 +1,11 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Questions;
 
 use App\Models\Question;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ViewDraftsTest extends TestCase

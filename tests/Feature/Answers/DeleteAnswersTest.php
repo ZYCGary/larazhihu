@@ -3,9 +3,7 @@
 namespace Tests\Feature\Answers;
 
 use App\Models\Answer;
-use http\Client\Curl\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class DeleteAnswersTest extends TestCase

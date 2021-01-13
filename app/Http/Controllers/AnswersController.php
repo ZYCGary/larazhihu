@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AnswerRequest;
 use App\Models\Answer;
 use App\Models\Question;
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 
 class AnswersController extends Controller
 {
@@ -14,7 +14,7 @@ class AnswersController extends Controller
         $this->middleware('auth');
     }
 
-    public function store(AnswerRequest $request, $questionId)
+    public function store(AnswerRequest $request, $questionId): RedirectResponse
     {
         $question = Question::published()->findOrFail($questionId);
 
@@ -26,7 +26,7 @@ class AnswersController extends Controller
         return back()->with('flash', 'Post your answer successfully!');
     }
 
-    public function destroy(Answer $answer)
+    public function destroy(Answer $answer): RedirectResponse
     {
         $this->authorize('delete', $answer);
 

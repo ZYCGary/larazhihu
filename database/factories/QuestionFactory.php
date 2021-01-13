@@ -7,6 +7,7 @@ use App\Models\Question;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use JetBrains\PhpStorm\ArrayShape;
 
 class QuestionFactory extends Factory
 {
@@ -22,7 +23,8 @@ class QuestionFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    #[ArrayShape(['user_id' => "\Closure", 'category_id' => "\Closure", 'title' => "string", 'content' => "string"])]
+    public function definition(): array
     {
         return [
             'user_id' => function () {
@@ -41,7 +43,7 @@ class QuestionFactory extends Factory
      *
      * @return Factory
      */
-    public function published()
+    public function published(): Factory
     {
         return $this->state(function (array $attributes) {
             return [
@@ -55,7 +57,7 @@ class QuestionFactory extends Factory
      *
      * @return Factory
      */
-    public function unpublished()
+    public function unpublished(): Factory
     {
         return $this->state(function (array $attributes) {
             return [

@@ -6,6 +6,7 @@ use App\Models\Following;
 use App\Models\Question;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use JetBrains\PhpStorm\ArrayShape;
 
 class FollowingFactory extends Factory
 {
@@ -21,7 +22,8 @@ class FollowingFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    #[ArrayShape(['user_id' => "\Closure", 'question_id' => "\Closure"])]
+    public function definition(): array
     {
         return [
             'user_id' => function () {

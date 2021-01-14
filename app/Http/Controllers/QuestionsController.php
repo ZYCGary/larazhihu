@@ -44,7 +44,7 @@ class QuestionsController extends Controller
         ]);
     }
 
-    public function show($category, $questionId)
+    public function show($questionId)
     {
         $question = Question::published()->findOrFail($questionId);
 

@@ -27,10 +27,10 @@ Route::get('/', function () {
 
 Auth::routes(['verify' => true]);
 
-Route::get('/questions/{category?}', [QuestionsController::class, 'index'])->name('questions.index');
+Route::get('/questions/', [QuestionsController::class, 'index'])->name('questions.index');
 Route::get('/questions/create', [QuestionsController::class, 'create'])->name('questions.create');
 Route::post('/questions', [QuestionsController::class, 'store'])->name('questions.store');
-Route::get('/questions/{category}/{question}', [QuestionsController::class, 'show'])->name('questions.show');
+Route::get('/questions/{questionId}', [QuestionsController::class, 'show'])->name('questions.show');
 
 Route::post('/questions/{question}/follow', [FollowQuestionsController::class, 'store'])->name('follow-questions.store');
 Route::delete('/questions/{question}/follow', [FollowQuestionsController::class, 'destroy'])->name('follow-questions.destroy');
